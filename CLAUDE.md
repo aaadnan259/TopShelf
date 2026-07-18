@@ -10,7 +10,7 @@ extension; load it unpacked at chrome://extensions.
   src/scorer.js into a vm sandbox (no window/document/chrome exist there,
   which also enforces the scorer's purity) and checks tests/fixtures.js.
 - Render icons: `node scripts/render-icons.mjs` (needs sharp/ImageMagick/
-  Inkscape/librsvg). PNGs are not committed.
+  Inkscape/librsvg). PNGs are committed but can be regenerated.
 - Manual verification: reload the extension, reload an Amazon search.
   Top tiles carry rank badges; the chip shows ranked/hidden counts.
 - Package for the Chrome Web Store: `scripts/package.sh` (version from
