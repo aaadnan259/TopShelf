@@ -1,0 +1,11 @@
+# Packaging output
+*.zip
+dist/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.log
+
+# Node (only ever used by the test harness / icon script; no deps committed)
+node_modules/

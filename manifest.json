@@ -1,0 +1,62 @@
+{
+  "manifest_version": 3,
+  "name": "TopShelf for Amazon",
+  "version": "0.1.0",
+  "description": "Re-ranks Amazon search results by statistically honest quality. No accounts, no tracking, zero network requests.",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://www.amazon.com/s*",
+    "https://www.amazon.co.uk/s*",
+    "https://www.amazon.de/s*",
+    "https://www.amazon.fr/s*",
+    "https://www.amazon.it/s*",
+    "https://www.amazon.es/s*",
+    "https://www.amazon.ca/s*",
+    "https://www.amazon.com.mx/s*",
+    "https://www.amazon.com.au/s*",
+    "https://www.amazon.co.jp/s*",
+    "https://www.amazon.in/s*",
+    "https://www.amazon.nl/s*",
+    "https://www.amazon.se/s*",
+    "https://www.amazon.com.br/s*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.amazon.com/s*",
+        "https://www.amazon.co.uk/s*",
+        "https://www.amazon.de/s*",
+        "https://www.amazon.fr/s*",
+        "https://www.amazon.it/s*",
+        "https://www.amazon.es/s*",
+        "https://www.amazon.ca/s*",
+        "https://www.amazon.com.mx/s*",
+        "https://www.amazon.com.au/s*",
+        "https://www.amazon.co.jp/s*",
+        "https://www.amazon.in/s*",
+        "https://www.amazon.nl/s*",
+        "https://www.amazon.se/s*",
+        "https://www.amazon.com.br/s*"
+      ],
+      "js": ["src/scraper.js", "src/scorer.js", "src/content.js"],
+      "css": ["src/styles.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "topshelf@topshelf.shopping",
+      "strict_min_version": "109.0"
+    }
+  }
+}
