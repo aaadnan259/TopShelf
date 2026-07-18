@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TopShelf — Amazon, best first.</title>
+    <meta
+      name="description"
+      content="TopShelf re-ranks Amazon search results by statistically honest quality. No accounts, no tracking, zero network requests."
+    />
+    <style>
+      :root {
+        --navy: #131921;
+        --ink: #0f1111;
+        --muted: #565959;
+        --line: #d5d9d9;
+        --gold: #febd69;
+        --red: #b12704;
+        --teal: #007185;
+        --bg: #f7f8f8;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font: 400 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+        color: var(--ink);
+        background: #fff;
+      }
+      .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+      a { color: var(--teal); }
+
+      /* Hero */
+      .hero {
+        background: linear-gradient(180deg, var(--navy), #1c2733);
+        color: #fff;
+        padding: 84px 0 72px;
+        text-align: center;
+      }
+      .hero h1 { font-size: 54px; line-height: 1.05; margin: 0 0 16px; }
+      .hero .sub { font-size: 20px; color: #cfd6dc; max-width: 640px; margin: 0 auto 32px; }
+      .hero .sub b { color: var(--gold); font-weight: 700; }
+      .btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+      .btn {
+        display: inline-block;
+        padding: 14px 26px;
+        border-radius: 28px;
+        font-weight: 700;
+        text-decoration: none;
+        font-size: 16px;
+      }
+      .btn-primary { background: var(--gold); color: var(--navy); }
+      .btn-ghost { background: transparent; color: #fff; border: 1px solid #46525f; }
+      .fine { margin-top: 22px; color: #9aa4ad; font-size: 13px; }
+
+      /* Section scaffolding */
+      section { padding: 72px 0; }
+      section h2 { font-size: 32px; text-align: center; margin: 0 0 12px; }
+      section .lead { text-align: center; color: var(--muted); max-width: 620px; margin: 0 auto 44px; }
+
+      /* Demo block */
+      .demo { background: var(--bg); }
+      .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+      @media (max-width: 720px) { .compare { grid-template-columns: 1fr; } }
+      .col h3 { text-align: center; font-size: 15px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; }
+      .card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 10px;
+      }
+      .tile {
+        display: grid;
+        grid-template-columns: 40px 1fr auto;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 10px;
+        border-bottom: 1px solid #eef0f0;
+        position: relative;
+      }
+      .tile:last-child { border-bottom: none; }
+      .rank {
+        width: 26px; height: 26px; border-radius: 13px;
+        background: var(--navy); color: #fff;
+        font: 700 13px/26px Arial; text-align: center;
+      }
+      .rank.r1 { background: var(--red); }
+      .rank.r2 { background: #565959; }
+      .rank.r3 { background: #6f4e1f; }
+      .rank.none { background: transparent; color: var(--muted); font-weight: 400; }
+      .name { font-size: 15px; }
+      .meta { font-size: 13px; color: var(--muted); }
+      .stars { color: #de7921; font-weight: 700; }
+      .tag { font-size: 11px; color: #fff; background: var(--muted); border-radius: 4px; padding: 1px 5px; margin-left: 6px; }
+      .tag.spon { background: #8a6d1f; }
+      .caption { text-align: center; color: var(--muted); font-size: 13px; margin-top: 28px; }
+
+      /* Steps */
+      .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+      @media (max-width: 720px) { .steps { grid-template-columns: 1fr; } }
+      .step .n { font-size: 34px; font-weight: 800; color: var(--gold); }
+      .step h3 { margin: 6px 0 6px; font-size: 19px; }
+      .step p { color: var(--muted); font-size: 15px; margin: 0; }
+
+      /* Features */
+      .features { background: var(--navy); color: #fff; }
+      .features h2 { color: #fff; }
+      .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+      @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+      .feat { background: #1c2733; border: 1px solid #2b3947; border-radius: 12px; padding: 20px; }
+      .feat h3 { margin: 0 0 6px; font-size: 17px; color: var(--gold); }
+      .feat p { margin: 0; color: #c3ccd3; font-size: 14px; }
+
+      /* Footer */
+      footer { padding: 40px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+      footer .links { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 12px; }
+      footer .disclaimer { font-size: 12px; }
+    </style>
+  </head>
+  <body>
+    <!-- HERO -->
+    <header class="hero">
+      <div class="wrap">
+        <h1>Amazon, best first.</h1>
+        <p class="sub">
+          A <b>4.6★ with 8,000 reviews</b> should beat a <b>5.0★ with 12</b>.
+          Amazon's sort disagrees. TopShelf fixes it — right on the page.
+        </p>
+        <div class="btns">
+          <a class="btn btn-primary" href="#" data-cws>Add to Chrome</a>
+          <a class="btn btn-ghost" href="https://github.com/" data-gh>View on GitHub</a>
+        </div>
+        <p class="fine">Free, open source, no accounts, no tracking, zero network requests.</p>
+      </div>
+    </header>
+
+    <!-- DEMO -->
+    <section class="demo">
+      <div class="wrap">
+        <h2>See the difference</h2>
+        <p class="lead">The same four products from one real search — Amazon's order, then TopShelf's.</p>
+        <div class="compare">
+          <div class="col">
+            <h3>Amazon order</h3>
+            <div class="card">
+              <div class="tile">
+                <span class="rank none">1</span>
+                <span class="name">UltraGadget Pro <span class="tag spon">Sponsored</span></span>
+                <span class="meta"><span class="stars">5.0★</span> · 12</span>
+              </div>
+              <div class="tile">
+                <span class="rank none">2</span>
+                <span class="name">NoName Widget</span>
+                <span class="meta"><span class="stars">4.9★</span> · 41</span>
+              </div>
+              <div class="tile">
+                <span class="rank none">3</span>
+                <span class="name">Acme Essentials</span>
+                <span class="meta"><span class="stars">4.6★</span> · 8,240</span>
+              </div>
+              <div class="tile">
+                <span class="rank none">4</span>
+                <span class="name">Everyday Basics</span>
+                <span class="meta"><span class="stars">4.4★</span> · 3,110</span>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <h3>TopShelf ranked</h3>
+            <div class="card">
+              <div class="tile">
+                <span class="rank r1">1</span>
+                <span class="name">Acme Essentials</span>
+                <span class="meta"><span class="stars">4.6★</span> · 8,240</span>
+              </div>
+              <div class="tile">
+                <span class="rank r2">2</span>
+                <span class="name">Everyday Basics</span>
+                <span class="meta"><span class="stars">4.4★</span> · 3,110</span>
+              </div>
+              <div class="tile">
+                <span class="rank r3">3</span>
+                <span class="name">NoName Widget</span>
+                <span class="meta"><span class="stars">4.9★</span> · 41 <span class="tag">thin</span></span>
+              </div>
+              <div class="tile">
+                <span class="rank none">4</span>
+                <span class="name">UltraGadget Pro</span>
+                <span class="meta"><span class="stars">5.0★</span> · 12 <span class="tag spon">Sponsored</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="caption">Illustrative example built from a real search; product names anonymized.</p>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section>
+      <div class="wrap">
+        <h2>How it works</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="n">1</div>
+            <h3>Reads what's on the page</h3>
+            <p>Nothing else. Every rating, review count, and price is already
+              on your screen. No servers, no accounts, no requests.</p>
+          </div>
+          <div class="step">
+            <div class="n">2</div>
+            <h3>Scores every listing</h3>
+            <p>A confidence-weighted rating pulls thin-review products toward
+              the page average until they've earned their spot.</p>
+          </div>
+          <div class="step">
+            <div class="n">3</div>
+            <h3>You stay in control</h3>
+            <p>One tap back to Amazon's order. Every rank explains itself in a
+              click. Nothing is ever deleted — only reordered.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features">
+      <div class="wrap">
+        <h2>What's inside</h2>
+        <div class="grid">
+          <div class="feat"><h3>Quality &amp; Value modes</h3><p>Rank by confidence-weighted rating, or by quality per dollar (log-scaled).</p></div>
+          <div class="feat"><h3>Review-farm demotion</h3><p>High ratings on suspiciously few reviews get pushed down — never hidden on that alone.</p></div>
+          <div class="feat"><h3>Sponsored, handled</h3><p>Demoted by default. Hide them entirely or leave them alone — your call.</p></div>
+          <div class="feat"><h3>Explainable ranks</h3><p>Click any badge to see the exact numbers and penalties behind the score.</p></div>
+          <div class="feat"><h3>Pairs with Knockoff</h3><p>Reads Knockoff's brand verdicts when present. Not installed? Works the same.</p></div>
+          <div class="feat"><h3>Private by design</h3><p>No accounts, no analytics, zero network requests. Settings stay in Chrome sync.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="wrap">
+        <div class="links">
+          <a href="https://github.com/">GitHub</a>
+          <a href="https://github.com/">License (MIT)</a>
+          <a href="https://github.com/">Report an issue</a>
+          <a href="https://x.com/">X</a>
+          <a href="https://linkedin.com/">LinkedIn</a>
+        </div>
+        <p class="disclaimer">Not affiliated with Amazon. "Amazon" is a trademark of Amazon.com, Inc.</p>
+      </div>
+    </footer>
+  </body>
+</html>
