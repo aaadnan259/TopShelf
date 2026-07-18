@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TopShelf settings</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <h1>TopShelf</h1>
+      <p class="tagline">Amazon, best products first. Settings are stored in
+        Chrome sync storage only &mdash; no accounts, no network requests.</p>
+
+      <section class="field">
+        <label for="mode">Ranking mode</label>
+        <select id="mode">
+          <option value="quality">Quality &mdash; confidence-weighted rating</option>
+          <option value="value">Value &mdash; quality per dollar</option>
+        </select>
+        <p class="hint">Value is log-scaled so a $9 item doesn't automatically win.</p>
+      </section>
+
+      <section class="field">
+        <label for="floor">Hidden-tile floor</label>
+        <select id="floor">
+          <option value="off">Off &mdash; hide nothing (except Knockoff-flagged)</option>
+          <option value="standard">Standard &mdash; hide clearly-below-average</option>
+          <option value="aggressive">Aggressive &mdash; hide anything below par</option>
+        </select>
+        <p class="hint">Hidden tiles are never deleted &mdash; a "show hidden" link
+          on the chip reveals them.</p>
+      </section>
+
+      <section class="field">
+        <label for="sponsored">Sponsored listings</label>
+        <select id="sponsored">
+          <option value="demote">Demote (&minus;15%)</option>
+          <option value="hide">Hide entirely</option>
+          <option value="off">Leave alone</option>
+        </select>
+      </section>
+
+      <section class="field field-check">
+        <label><input type="checkbox" id="badges" /> Show rank badges on the top 3</label>
+      </section>
+
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+      <p class="footer">Not affiliated with Amazon.</p>
+    </main>
+    <script src="options.js"></script>
+  </body>
+</html>
