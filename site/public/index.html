@@ -59,7 +59,7 @@
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
       html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
       body {
-        font: 400 16px/1.65 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font: 400 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         color: var(--ink);
         background: var(--card);
       }
@@ -416,7 +416,7 @@
         border-radius: 4px;
         background: rgba(255,255,255,.08);
       }
-      .mock-confidence {
+      .mock-reason {
         font-size: 10px;
         font-weight: 700;
         padding: 3px 8px;
@@ -425,7 +425,7 @@
         color: rgba(34,197,94,.8);
         white-space: nowrap;
       }
-      .mock-confidence.low {
+      .mock-reason.warn {
         background: rgba(239,68,68,.1);
         color: rgba(239,68,68,.7);
       }
@@ -1040,7 +1040,7 @@
                   <div class="mock-stars">
                     <span class="mock-stars-bar"></span>
                     <span class="mock-stars-text">4.6 · 8,240</span>
-                    <span class="mock-confidence">High confidence</span>
+                    <span class="mock-reason">4.6★ × 8,240</span>
                   </div>
                   <div class="mock-price"></div>
                 </div>
@@ -1056,7 +1056,7 @@
                   <div class="mock-stars">
                     <span class="mock-stars-bar" style="width: 50px"></span>
                     <span class="mock-stars-text">4.4 · 3,110</span>
-                    <span class="mock-confidence">High confidence</span>
+                    <span class="mock-reason">4.4★ × 3,110</span>
                   </div>
                   <div class="mock-price"></div>
                 </div>
@@ -1073,7 +1073,7 @@
                   <div class="mock-stars">
                     <span class="mock-stars-bar" style="width: 44px"></span>
                     <span class="mock-stars-text">5.0 · 12</span>
-                    <span class="mock-confidence low">Thin reviews</span>
+                    <span class="mock-reason warn">thin reviews −20%</span>
                   </div>
                   <div class="mock-price"></div>
                 </div>
@@ -1158,7 +1158,7 @@
                   <div class="demo-name">Acme Essentials</div>
                   <div class="demo-meta"><span class="demo-stars">4.6★</span> · 8,240 reviews</div>
                 </div>
-                <span class="demo-score high">95% conf</span>
+                <span class="demo-score high">4.6★ × 8,240</span>
               </div>
               <div class="demo-tile">
                 <span class="demo-rank r2">2</span>
@@ -1166,7 +1166,7 @@
                   <div class="demo-name">Everyday Basics</div>
                   <div class="demo-meta"><span class="demo-stars">4.4★</span> · 3,110 reviews</div>
                 </div>
-                <span class="demo-score high">92% conf</span>
+                <span class="demo-score high">4.4★ × 3,110</span>
               </div>
               <div class="demo-tile">
                 <span class="demo-rank r3">3</span>
@@ -1174,7 +1174,7 @@
                   <div class="demo-name">NoName Widget <span class="demo-tag demo-tag-thin">thin</span></div>
                   <div class="demo-meta"><span class="demo-stars">4.9★</span> · 41 reviews</div>
                 </div>
-                <span class="demo-score mid">68% conf</span>
+                <span class="demo-score mid">thin reviews −20%</span>
               </div>
               <div class="demo-tile">
                 <span class="demo-rank">4</span>
@@ -1182,7 +1182,7 @@
                   <div class="demo-name">UltraGadget Pro <span class="demo-tag demo-tag-spon">Sponsored</span></div>
                   <div class="demo-meta"><span class="demo-stars">5.0★</span> · 12 reviews</div>
                 </div>
-                <span class="demo-score low">Demoted</span>
+                <span class="demo-score low">sponsored −15%</span>
               </div>
             </div>
           </div>
