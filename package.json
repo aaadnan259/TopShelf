@@ -1,0 +1,13 @@
+{
+  "name": "topshelf",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Dev tooling manifest ONLY. The shipped extension has zero dependencies and no build step; this file exists so npm installs the icon renderer here (sharp) instead of walking up to a parent package.json. Nothing in devDependencies is bundled into the extension.",
+  "scripts": {
+    "test": "node tests/run.js",
+    "icons": "node scripts/render-icons.mjs"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.3"
+  }
+}

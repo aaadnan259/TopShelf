@@ -34,15 +34,25 @@ function have(cmd) {
 }
 
 async function trySharp() {
+  let sharp;
   try {
-    const sharp = (await import("sharp")).default;
+    sharp = (await import("sharp")).default;
+  } catch {
+    return false; // sharp genuinely not installed -> fall through to CLI tools
+  }
+  // sharp IS present: a failure here is a real render error (e.g. a malformed
+  // SVG), not "no rasterizer". Surface it and stop rather than silently
+  // pretending no tool was found.
+  try {
     for (const s of sizes) {
       await sharp(svg, { density: 384 }).resize(s, s).png().toFile(out(s));
       console.log(`sharp -> icon-${s}.png`);
     }
     return true;
-  } catch {
-    return false;
+  } catch (e) {
+    console.error(`sharp failed to render ${svg}:`);
+    console.error("  " + (e && e.message ? e.message : e));
+    process.exit(1);
   }
 }
 

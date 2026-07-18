@@ -2,7 +2,7 @@
 <!--
   TopShelf icon: three ascending bars sitting on a shelf line. The tallest
   bar is highlighted (Amazon gold) to read as "best, on the top shelf".
-  Source of truth for all raster sizes -- see scripts/render-icons.mjs.
+  Source of truth for all raster sizes; see scripts/render-icons.mjs.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
   <rect width="128" height="128" rx="26" fill="#131921"/>
