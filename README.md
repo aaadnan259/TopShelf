@@ -1,6 +1,6 @@
 # TopShelf
 
-**Amazon, best products first.**
+**Amazon, best first.**
 
 TopShelf re-ranks Amazon search results by statistically honest quality,
 demotes review-farmed and sponsored listings, and pairs with
