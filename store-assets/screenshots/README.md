@@ -18,3 +18,21 @@ Tip (matching Knockoff's approach): use a real listing from a real search and
 say so in the landing-page footer for credibility.
 
 Save the final PNGs in this folder as `01-*.png … 05-*.png`.
+
+## Capturing them in one command
+
+`scripts/capture-screenshots.mjs` drives Playwright's Chromium with the
+unpacked extension loaded, runs a real Amazon search, and writes all five
+shots here at exactly 1280×800:
+
+```
+npm i -D playwright
+node scripts/capture-screenshots.mjs --query "smart watch" --value-query "usb c cable"
+```
+
+The browser window stays visible: if Amazon asks for a robot check or a
+delivery location, handle it in that window and the script carries on.
+Shot 3 uses the Aggressive floor so a "Show N hidden" link is likely; if the
+script warns that nothing was hidden, re-run with a different `--query`.
+Look over every PNG before uploading, since a real search can surface
+anything.
