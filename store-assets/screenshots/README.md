@@ -27,7 +27,7 @@ shots here at exactly 1280×800:
 
 ```
 npm i -D playwright
-node scripts/capture-screenshots.mjs --query "usb c cable" --value-query "wireless earbuds"
+node scripts/capture-screenshots.mjs --query "smart watch" --value-query "usb c cable"
 ```
 
 The browser window stays visible: if Amazon asks for a robot check or a

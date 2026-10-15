@@ -3,8 +3,8 @@
 //
 //   npm i -D playwright            (uses Playwright's bundled Chromium; branded
 //                                   Chrome no longer honours --load-extension)
-//   node scripts/capture-screenshots.mjs [--query "usb c cable"]
-//                                        [--value-query "wireless earbuds"]
+//   node scripts/capture-screenshots.mjs [--query "smart watch"]
+//                                        [--value-query "usb c cable"]
 //                                        [--domain www.amazon.com]
 //
 // Runs a VISIBLE browser on purpose: Amazon sometimes shows a "are you a
@@ -24,6 +24,10 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "store-assets", "screenshots");
 const W = 1280;
 const H = 800;
+// Hero (01) pane size: (1280 - 2*32 padding - 24 gap) / 2 wide, .shot height.
+const PANE_W = 596;
+const PANE_H = 666;
+const CROP_H = 1200;
 
 // Shared by the composed slides (01, 05). Defined up here because the
 // top-level await below runs before anything declared further down.
@@ -37,8 +41,8 @@ function arg(name, fallback) {
   return i > -1 && process.argv[i + 1] ? process.argv[i + 1] : fallback;
 }
 const DOMAIN = arg("domain", "www.amazon.com");
-const QUERY = arg("query", "usb c cable");
-const VALUE_QUERY = arg("value-query", "wireless earbuds");
+const QUERY = arg("query", "smart watch");
+const VALUE_QUERY = arg("value-query", "usb c cable");
 
 const profile = mkdtempSync(join(tmpdir(), "topshelf-shots-"));
 const ctx = await chromium.launchPersistentContext(profile, {
@@ -62,15 +66,20 @@ try {
   });
 
   // ---- 01: before/after hero ----
+  // Each pane shows a full-width results crop (the rank badges sit at the
+  // tile's right edge) scaled down to fit, so it needs a taller-than-800px
+  // crop to fill the pane's height.
+  await page.setViewportSize({ width: W, height: CROP_H });
   await search(page, QUERY);
   await page.click(".ts-btn-original");
   await page.waitForTimeout(400);
-  await scrollToResults(page);
+  await scrollToFirstResult(page);
   const before = await resultsCrop(page);
   await page.click(".ts-btn-ranked");
   await page.waitForTimeout(400);
-  await scrollToResults(page);
+  await scrollToFirstResult(page);
   const after = await resultsCrop(page);
+  await page.setViewportSize({ width: W, height: H });
   await composeHero(page, before, after, QUERY);
   console.log("wrote 01-before-after.png");
 
@@ -100,11 +109,22 @@ try {
   // ---- 04: value mode ----
   await setSettings(page, extId, { mode: "value", floor: "standard" });
   await search(page, VALUE_QUERY);
-  await page.evaluate(() => {
-    document.querySelector(".ts-badge-1").scrollIntoView({ block: "start" });
-    window.scrollBy(0, -140);
+  // A tile with no price keeps its quality score in value mode, so it can
+  // land at #1 with a "value: no price" reason -- that sells nothing. Open
+  // the best-ranked badge whose reasons include an actual price division.
+  const priced = await page.evaluate(() => {
+    for (const r of [1, 2, 3]) {
+      const b = document.querySelector(".ts-badge-" + r);
+      if (b && /value: \/log10/.test(b.textContent)) {
+        b.scrollIntoView({ block: "start" });
+        window.scrollBy(0, -140);
+        return r;
+      }
+    }
+    return 0;
   });
-  await page.click(".ts-badge-1"); // popover shows the "value: /log10($..)" line
+  if (!priced) console.warn("  note: no priced tile in the top 3; try another --value-query for shot 4");
+  await page.click(".ts-badge-" + (priced || 1)); // popover shows the "value: /log10($..)" line
   await page.waitForTimeout(300);
   await page.screenshot({ path: join(OUT, "04-value-mode.png") });
   console.log("wrote 04-value-mode.png");
@@ -170,16 +190,32 @@ async function scrollToResults(page) {
   await page.waitForTimeout(200);
 }
 
+// Top of the first result tile, below Amazon's ad carousels, so the crop
+// shows ranked tiles (and their badges) rather than sponsored banners.
+async function scrollToFirstResult(page) {
+  await page.evaluate(() => {
+    const t = document.querySelector('.s-main-slot div[data-component-type="s-search-result"]');
+    const el = t || document.querySelector(".s-main-slot");
+    window.scrollTo(0, Math.max(0, el.getBoundingClientRect().top + window.scrollY - 2));
+  });
+  await page.waitForTimeout(200);
+}
+
 // The left part of the results grid at full resolution -- shrinking the whole
 // 1280px page into half a slide would make the badges unreadable.
 async function resultsCrop(page) {
-  // The fixed chip would sit on top of the tiles in a crop; slide 03 shows it.
-  const hide = await page.addStyleTag({ content: ".ts-chip{visibility:hidden !important}" });
+  // The fixed chip would sit on top of the tiles in a crop (slide 03 shows
+  // it), and Amazon's sticky header would cover the top of a scrolled crop.
+  const hide = await page.addStyleTag({
+    content: ".ts-chip,#navbar-main,#navbar,#nav-belt,#nav-main{visibility:hidden !important}",
+  });
   const box = await page.evaluate(() => {
     const r = document.querySelector(".s-main-slot").getBoundingClientRect();
-    return { x: Math.max(0, r.left), width: Math.min(r.width, 760) };
+    return { x: Math.max(0, r.left), width: Math.min(r.width, 1000) };
   });
-  const png = await page.screenshot({ clip: { x: box.x, y: 0, width: box.width, height: H } });
+  // Match the hero pane's aspect so the scaled crop fills it top to bottom.
+  const h = Math.min(CROP_H, Math.round((box.width * PANE_H) / PANE_W));
+  const png = await page.screenshot({ clip: { x: box.x, y: 0, width: box.width, height: h } });
   await hide.evaluate((el) => el.remove());
   return png;
 }
