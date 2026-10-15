@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--
+  Chrome Web Store small promo tile (440x280, required to publish).
+  Source for store-assets/promo/small-tile-440x280.png. Re-render with:
+    chromium --headless --hide-scrollbars --window-size=440,500 \
+      --screenshot=tile.png store-assets/promo/small-tile.html
+  then crop tile.png to its top 440x280 (headless Chromium's viewport is
+  shorter than --window-size, so a 440x280 window clips the tagline).
+  Kept text-light on purpose: the store shows this tile small, so the icon
+  and a short tagline read better than feature lists.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 440px; height: 280px; overflow: hidden; }
+  body {
+    background: #131921;
+    font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #fff;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px;
+  }
+  .row { display: flex; align-items: center; gap: 16px; }
+  svg { width: 84px; height: 84px; }
+  h1 { font-size: 44px; font-weight: 800; letter-spacing: -0.5px; }
+  p { font-size: 20px; color: #FCD34D; font-weight: 600; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <svg viewBox="0 0 128 128" aria-hidden="true">
+      <rect width="128" height="128" rx="28" fill="#1e293b"/>
+      <path d="M 34 82 L 30 42 L 49 60 L 64 28 L 79 60 L 98 42 L 94 82 Z"
+            fill="#FFFFFF" stroke="#F59E0B" stroke-width="7"
+            stroke-linejoin="round" stroke-linecap="round"/>
+      <rect x="22" y="90" width="84" height="15" rx="7.5" fill="#FCD34D"/>
+      <path d="M 54 96.5 C 57 100.5, 71 100.5, 74 96.5" fill="none"
+            stroke="#131921" stroke-width="3.5" stroke-linecap="round"/>
+    </svg>
+    <h1>TopShelf</h1>
+  </div>
+  <p>Amazon search, best first.</p>
+</body>
+</html>

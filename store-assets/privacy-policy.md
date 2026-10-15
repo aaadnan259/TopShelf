@@ -1,6 +1,6 @@
 # TopShelf privacy policy
 
-_Last updated: 2026-07-18_
+_Last updated: 2026-10-15_
 
 TopShelf does not collect, store, transmit, or sell any personal data.
 
@@ -12,6 +12,11 @@ TopShelf does not collect, store, transmit, or sell any personal data.
   sponsored handling, badge visibility) are stored using Chrome's `storage`
   sync API. This data stays within your own Google/Chrome account and is
   never sent to us — we operate no servers and have no way to access it.
+- **Last-page counts.** To show how many results were ranked and hidden in
+  the toolbar popup,
+  the extension keeps the tile counts and time of the most recent re-rank in
+  Chrome's local `storage` area on your device. No product, search, or
+  browsing data is stored, and it never leaves your browser.
 
 TopShelf requests host permissions only for Amazon search pages, solely to
 read and reorder the results on the page.

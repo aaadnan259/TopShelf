@@ -80,7 +80,7 @@ there is no `fetch`, `XMLHttpRequest`, or remote resource anywhere.
 
 ## Pairs with Knockoff
 
-[Knockoff](https://knockoff.example) answers *"is this a real brand?"*
+Knockoff (a separate extension) answers *"is this a real brand?"*
 TopShelf answers *"of what's left, what's actually best?"*
 
 If Knockoff is installed, it tags tiles with `data-ko-verdict`. TopShelf
