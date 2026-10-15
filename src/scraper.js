@@ -18,7 +18,8 @@
 
     // A product tile. Real products carry a non-empty data-asin. Amazon
     // also emits data-asin="" spacer/ad rows -- those are excluded.
-    tile: 'div[data-asin]:not([data-asin=""])',
+    tile:
+      'div[data-component-type="s-search-result"], div.s-result-item[data-asin]:not([data-asin=""]), div[data-asin]:not([data-asin=""])',
 
     // Title text. h2 covers the current layout; the anchor is a fallback.
     title: "h2 span, h2 a span, h2",
@@ -210,7 +211,20 @@
     }
     for (var i = 0; i < nodes.length; i++) {
       try {
-        tiles.push(scrapeTile(nodes[i]));
+        var el = nodes[i];
+        // 1. Must not be a subcomponent nested inside another matched tile (e.g. Add to cart container)
+        if (el.parentElement && el.parentElement.closest(SELECTORS.tile)) {
+          continue;
+        }
+        // 2. Must not be an item inside a horizontal carousel widget
+        if (el.closest && el.closest(".a-carousel-container, [data-component-type='s-carousel']")) {
+          continue;
+        }
+        // 3. Must have an actual product title
+        if (!q(el, SELECTORS.title)) {
+          continue;
+        }
+        tiles.push(scrapeTile(el));
       } catch (e) {
         // One bad tile must not break the batch. Skip it silently.
       }

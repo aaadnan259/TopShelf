@@ -49,11 +49,10 @@
 
   // ---- Snapshot / view helpers ----
   function currentAsins(container) {
-    var nodes = container.querySelectorAll(window.TopShelfSelectors.tile);
+    var tiles = window.TopShelfScrape(container);
     var asins = [];
-    for (var i = 0; i < nodes.length; i++) {
-      var a = nodes[i].getAttribute("data-asin");
-      if (a) asins.push(a);
+    for (var i = 0; i < tiles.length; i++) {
+      if (tiles[i].asin) asins.push(tiles[i].asin);
     }
     return asins;
   }
