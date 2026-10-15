@@ -49,6 +49,17 @@ Shopping
 - host permissions (amazon.com and international marketplaces): read the
   search results page in order to re-rank it. No other sites, no <all_urls>.
 
+## Remote code (Privacy practices tab)
+No, I am not using remote code. All JavaScript ships in the package; nothing
+is fetched or eval'd.
+
 ## Privacy
-Single data practice: none. No data is collected or transmitted. See
-store-assets/privacy-policy.md for the hostable page.
+Single data practice: none. No data is collected or transmitted. In the
+Privacy practices tab, leave every data-type box unticked and tick all three
+certifications. Privacy policy URL:
+https://github.com/aaadnan259/TopShelf/blob/master/store-assets/privacy-policy.md
+
+## Images
+- Store icon: icons/icon-128.png (also inside the zip).
+- Small promo tile (required): store-assets/promo/small-tile-440x280.png.
+- Screenshots: store-assets/screenshots/01-*.png ... 05-*.png (1280x800).
