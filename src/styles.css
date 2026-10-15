@@ -3,9 +3,24 @@
  * on Amazon's own tiles. All classes are ts- prefixed to avoid collisions.
  */
 
-/* Hidden tiles: removed from flow but node stays in the DOM (never deleted). */
+/* Hidden tiles: removed from flow but node stays in the DOM (never deleted).
+   !important so Amazon's own display rules on the tile can't override it. */
 .ts-hidden {
-  display: none;
+  display: none !important;
+}
+
+/* Hidden tiles the user chose to reveal: in rank position, but dimmed. */
+.ts-revealed {
+  opacity: 0.5;
+}
+.ts-revealed:hover,
+.ts-revealed:focus-within {
+  opacity: 1;
+}
+
+/* Positioning context for the badge; removed with the badge. */
+.ts-anchor {
+  position: relative;
 }
 
 /* Rank badge in the top-left corner of a tile. */

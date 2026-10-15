@@ -26,6 +26,9 @@
   var originalOrder = null; // array of ASINs, snapshotted on first run
   var lastScored = []; // [{tile, result}] for the current page
   var debounceTimer = null;
+  var showHidden = false; // "Show N hidden" toggle state
+  var observer = null; // shared so renders can drain their own records
+  var observedContainer = null;
 
   function getContainer() {
     return document.querySelector(window.TopShelfSelectors.container);
@@ -76,11 +79,42 @@
     for (var i = 0; i < badges.length; i++) {
       if (badges[i].parentNode) badges[i].parentNode.removeChild(badges[i]);
     }
-    var tiles = container.querySelectorAll(".ts-hidden, .ts-tile");
+    var tiles = container.querySelectorAll(
+      ".ts-hidden, .ts-tile, .ts-revealed, .ts-anchor"
+    );
     for (var k = 0; k < tiles.length; k++) {
-      tiles[k].classList.remove("ts-hidden");
-      tiles[k].classList.remove("ts-tile");
+      tiles[k].classList.remove("ts-hidden", "ts-tile", "ts-revealed", "ts-anchor");
     }
+  }
+
+  // Reorder tiles IN PLACE: the set of positions the tiles occupy stays the
+  // same, only which tile sits in each position changes. Appending to the
+  // end of the container (the old approach) dragged every product past
+  // Amazon's non-tile children -- pagination, related searches, widgets --
+  // leaving those stranded above the results.
+  function placeInSlots(els) {
+    var inDom = els.filter(function (e) {
+      return e && e.parentNode;
+    });
+    var domOrder = inDom.slice().sort(function (a, b) {
+      return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+    });
+    var slots = domOrder.map(function (e) {
+      var marker = document.createComment("ts-slot");
+      e.parentNode.insertBefore(marker, e);
+      return marker;
+    });
+    for (var i = 0; i < slots.length; i++) {
+      slots[i].parentNode.replaceChild(inDom[i], slots[i]);
+    }
+  }
+
+  // Our DOM writes queue MutationObserver records that are delivered AFTER
+  // this synchronous code returns -- by then `reordering` is false again.
+  // Draining the queue here is what actually stops the self-trigger loop.
+  function endReorder() {
+    if (observer) observer.takeRecords();
+    reordering = false;
   }
 
   function makeBadge(rank, reasons) {
@@ -115,7 +149,7 @@
     return badge;
   }
 
-  // Sort scored tiles best-first and re-append them into the container.
+  // Sort scored tiles best-first and place them into the tiles' own slots.
   function renderRanked(container) {
     reordering = true;
     try {
@@ -127,30 +161,36 @@
         return b.result.score - a.result.score;
       });
 
+      placeInSlots(
+        ordered.map(function (item) {
+          return item.tile.el;
+        })
+      );
+
       var visibleRank = 0;
       for (var i = 0; i < ordered.length; i++) {
         var item = ordered[i];
         var el = item.tile.el;
         el.classList.add("ts-tile");
-        // appendChild MOVES the existing node -- this is the whole trick.
-        container.appendChild(el);
 
         if (item.result.hidden) {
-          el.classList.add("ts-hidden");
+          // Revealed hidden tiles are dimmed and never take a rank badge.
+          el.classList.add(showHidden ? "ts-revealed" : "ts-hidden");
           continue;
         }
         visibleRank++;
         if (settings.badges && visibleRank <= 3) {
-          el.style.position = el.style.position || "relative";
+          el.classList.add("ts-anchor");
           el.appendChild(makeBadge(visibleRank, item.result.reasons));
         }
       }
     } finally {
-      reordering = false;
+      endReorder();
     }
   }
 
-  // Re-append in the snapshotted original order.
+  // Restore the snapshotted original order (tiles that arrived later, and
+  // are not in the snapshot, keep their relative order after the rest).
   function renderOriginal(container) {
     reordering = true;
     try {
@@ -159,15 +199,23 @@
       for (var i = 0; i < lastScored.length; i++) {
         byAsin[lastScored[i].tile.asin] = lastScored[i].tile.el;
       }
+      var list = [];
+      var used = {};
       for (var j = 0; j < originalOrder.length; j++) {
         var el = byAsin[originalOrder[j]];
-        if (el) container.appendChild(el);
+        if (el && !used[originalOrder[j]]) {
+          list.push(el);
+          used[originalOrder[j]] = true;
+        }
       }
+      for (var k = 0; k < lastScored.length; k++) {
+        if (!used[lastScored[k].tile.asin]) list.push(lastScored[k].tile.el);
+      }
+      placeInSlots(list);
     } finally {
-      reordering = false;
+      endReorder();
     }
   }
-
   // ---- Chip UI ----
   var chip = null;
   function ensureChip() {
@@ -192,12 +240,10 @@
     chip.querySelector(".ts-chip-hidden").addEventListener("click", function () {
       var c = getContainer();
       if (!c) return;
-      var hiddenTiles = c.querySelectorAll(".ts-hidden");
-      var showing = chip.getAttribute("data-showing") === "1";
-      for (var i = 0; i < hiddenTiles.length; i++) {
-        hiddenTiles[i].style.display = showing ? "" : "block";
-      }
-      chip.setAttribute("data-showing", showing ? "0" : "1");
+      // State, not inline styles: the old inline display:block outlived the
+      // next re-render, so hidden tiles stayed visible for good.
+      showHidden = !showHidden;
+      if (currentView === "ranked") renderRanked(c);
       updateChip();
     });
     return chip;
@@ -220,9 +266,8 @@
 
     if (hiddenCount > 0 && currentView === "ranked") {
       hiddenBtn.hidden = false;
-      var showing = chip.getAttribute("data-showing") === "1";
       hiddenBtn.textContent =
-        (showing ? "Hide " : "Show ") + hiddenCount + " hidden";
+        (showHidden ? "Hide " : "Show ") + hiddenCount + " hidden";
     } else {
       hiddenBtn.hidden = true;
     }
@@ -233,9 +278,24 @@
     var container = getContainer();
     if (!container) return;
 
+    // Amazon can swap the whole results container on SPA navigation.
+    if (container !== observedContainer) observe(container);
+
     if (isNewPage(container)) {
       originalOrder = currentAsins(container);
-      chip && chip.setAttribute("data-showing", "0");
+      showHidden = false;
+    } else {
+      // Lazy-loaded tiles: remember where Amazon put them so "Original"
+      // can restore them too.
+      var seen = {};
+      for (var s = 0; s < originalOrder.length; s++) seen[originalOrder[s]] = true;
+      var now = currentAsins(container);
+      for (var n = 0; n < now.length; n++) {
+        if (!seen[now[n]]) {
+          originalOrder.push(now[n]);
+          seen[now[n]] = true;
+        }
+      }
     }
 
     var tiles = window.TopShelfScrape(container);
@@ -258,11 +318,12 @@
   }
 
   // ---- Observer ----
-  function observe() {
-    var container = getContainer();
+  function observe(container) {
     if (!container) return;
-    var observer = new MutationObserver(function (mutations) {
-      if (reordering) return; // ignore our own writes
+    if (observer) observer.disconnect();
+    observedContainer = container;
+    observer = new MutationObserver(function (mutations) {
+      if (reordering) return; // belt-and-braces; endReorder() drains our records
       var relevant = false;
       for (var i = 0; i < mutations.length; i++) {
         var mu = mutations[i];
@@ -293,8 +354,7 @@
       return;
     }
     loadSettings(function () {
-      run();
-      observe();
+      run(); // also attaches the observer to the current container
     });
 
     if (chrome && chrome.storage && chrome.storage.onChanged) {
