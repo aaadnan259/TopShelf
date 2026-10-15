@@ -238,25 +238,17 @@
 }
 .ts-chip-logo {
   display: inline-flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
-  gap: 2px;
   width: 22px;
   height: 22px;
-  padding: 0 0 5px;
   border-radius: 7px;
   background: var(--ts-navy);
   box-sizing: border-box;
 }
-.ts-chip-logo i {
+.ts-chip-logo svg {
   display: block;
-  width: 3px;
-  border-radius: 1px;
-  background: #9aa4ad;
 }
-.ts-chip-logo i:nth-child(1) { height: 5px; background: #dfe3e6; }
-.ts-chip-logo i:nth-child(2) { height: 8px; }
-.ts-chip-logo i:nth-child(3) { height: 11px; background: var(--ts-gold); }
 
 /* Segmented Ranked / Amazon switch. */
 .ts-seg {

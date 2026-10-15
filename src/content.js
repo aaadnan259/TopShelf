@@ -250,7 +250,7 @@
     chip.className = "ts-chip";
     chip.innerHTML =
       '<div class="ts-chip-brand">' +
-        '<span class="ts-chip-logo"><i></i><i></i><i></i></span>' +
+        '<span class="ts-chip-logo"><svg width="14" height="14" viewBox="0 0 128 128" fill="none"><path d="M 30 84 L 34 50 L 51 63 L 64 34 L 77 63 L 94 50 L 98 84 Z" fill="#febd69"/><circle cx="34" cy="46" r="7" fill="#fef08a"/><circle cx="64" cy="28" r="9" fill="#fef08a"/><circle cx="94" cy="46" r="7" fill="#fef08a"/><rect x="22" y="93" width="84" height="11" rx="5.5" fill="#febd69"/></svg></span>' +
         '<span>TopShelf</span>' +
       '</div>' +
       '<div class="ts-seg">' +

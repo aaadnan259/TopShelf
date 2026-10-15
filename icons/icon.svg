@@ -1,15 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  TopShelf icon: three ascending bars sitting on a shelf line. The tallest
-  bar is highlighted (Amazon gold) to read as "best, on the top shelf".
+  TopShelf icon: Playful trophy crown sitting on a golden shelf with star cutout.
   Source of truth for all raster sizes; see scripts/render-icons.mjs.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
-  <rect width="128" height="128" rx="26" fill="#131921"/>
-  <!-- ascending bars -->
-  <rect x="30" y="66" width="18" height="26" rx="3" fill="#dfe3e6"/>
-  <rect x="55" y="50" width="18" height="42" rx="3" fill="#9aa4ad"/>
-  <rect x="80" y="32" width="18" height="60" rx="3" fill="#febd69"/>
-  <!-- shelf line -->
-  <rect x="24" y="96" width="80" height="7" rx="3.5" fill="#febd69"/>
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD166"/>
+      <stop offset="50%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+    <linearGradient id="sparkleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFBEB"/>
+      <stop offset="100%" stop-color="#FEF08A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Squircle Base -->
+  <rect width="128" height="128" rx="30" fill="#131921"/>
+
+  <!-- Crown / Top Shelf Body -->
+  <path d="M 30 84 
+           L 34 50 
+           L 51 63 
+           L 64 34 
+           L 77 63 
+           L 94 50 
+           L 98 84 
+           Z" 
+        fill="url(#goldGrad)" 
+        stroke="url(#goldGrad)" 
+        stroke-width="6" 
+        stroke-linejoin="round" 
+        stroke-linecap="round"/>
+
+  <!-- Star Cutout in center of crown -->
+  <path d="M 64 63 L 66.5 69.5 L 73 70 L 68 74.5 L 69.5 81 L 64 77.5 L 58.5 81 L 60 74.5 L 55 70 L 61.5 69.5 Z" fill="#131921"/>
+
+  <!-- Pearls on Peaks -->
+  <circle cx="34" cy="46" r="6.5" fill="url(#sparkleGrad)"/>
+  <circle cx="64" cy="28" r="9" fill="url(#sparkleGrad)"/>
+  <circle cx="94" cy="46" r="6.5" fill="url(#sparkleGrad)"/>
+
+  <!-- Sturdy Shelf Bar -->
+  <rect x="22" y="93" width="84" height="11" rx="5.5" fill="url(#goldGrad)"/>
 </svg>
