@@ -34,6 +34,9 @@
 
     // Price. The .a-offscreen span holds the clean machine-readable value.
     price: ".a-price .a-offscreen",
+    // The whole price block (same wrapper as above). Its visible digit
+    // fragments ("25." / "99") must never be read as a review count.
+    priceBlock: ".a-price",
 
     // Sponsored disclosure. Amazon varies the wording/markup; we match a
     // few known shapes and also fall back to a text scan in the extractor.
@@ -107,9 +110,38 @@
     return n;
   }
 
+  // Parse a ratings-count string. Pure: no DOM. Accepts only shapes a count
+  // can take -- "8,240", "1.234", "12 345", "312", optionally wrapped in
+  // parens "(8,240)", and Amazon's compact form "4.1K" / "(4.1K)" / "2M".
+  // Rejects, by construction:
+  //   "4.6"   a rating (old code read this as 46 reviews)
+  //   "25."   the dollar part of a split price (old code read 25 reviews)
+  //   "10K+"  the "bought in past month" badge
+  function parseCount(str) {
+    if (!str) return null;
+    var t = String(str).trim();
+    var paren = t.match(/^\((.*)\)$/);
+    if (paren) t = paren[1].trim();
+
+    var compact = t.match(/^(\d+(?:[.,]\d+)?)\s?([KkMm])$/);
+    if (compact) {
+      var base = parseFloat(compact[1].replace(",", "."));
+      var mult = /k/i.test(compact[2]) ? 1000 : 1000000;
+      var v = Math.round(base * mult);
+      return isNaN(v) || v < 1 ? null : v;
+    }
+
+    // Plain integer, or an integer grouped in threes by , . or space.
+    if (/^\d+$/.test(t) || /^\d{1,3}(?:[.,\s]\d{3})+$/.test(t)) {
+      var n = parseInt(t.replace(/\D/g, ""), 10);
+      return isNaN(n) || n < 1 ? null : n;
+    }
+    return null;
+  }
+
   function extractReviews(tile) {
-    // Look for a link/element whose text is purely a (grouped) integer.
-    // We scan candidate nodes and take the first that parses to an int.
+    // Scan text nodes in DOM order and take the first that is shaped like a
+    // ratings count. Numbers inside the price block are never counts.
     var nodes = [];
     try {
       nodes = tile.querySelectorAll("a, span");
@@ -117,23 +149,14 @@
       nodes = [];
     }
     for (var i = 0; i < nodes.length; i++) {
-      var t = text(nodes[i]);
-      // Pure grouped integer, e.g. "8,240" or "1.234" or "12" -- not "4.6".
-      if (/^[\d., \s]+$/.test(t) && /\d/.test(t)) {
-        // Exclude values that look like a rating (contain a decimal with a
-        // single trailing digit and are <= 5).
-        var n = firstNumber(t);
-        if (n !== null && n >= 1 && Number.isInteger(n)) {
-          return n;
-        }
-        // firstNumber may have decimal-ized "8,240" wrongly in some locales;
-        // fall back to a strict digits-only strip for grouped integers.
-        var digits = t.replace(/[^\d]/g, "");
-        if (digits.length && digits.length >= t.replace(/\D/g, "").length) {
-          var asInt = parseInt(digits, 10);
-          if (!isNaN(asInt) && asInt >= 1) return asInt;
-        }
+      var node = nodes[i];
+      try {
+        if (node.closest && node.closest(SELECTORS.priceBlock)) continue;
+      } catch (e) {
+        // closest() unsupported/invalid -> just don't skip
       }
+      var n = parseCount(text(node));
+      if (n !== null) return n;
     }
     return null;
   }
@@ -197,4 +220,6 @@
 
   global.TopShelfScrape = TopShelfScrape;
   global.TopShelfSelectors = SELECTORS; // exposed so content.js can find the container
+  // Pure parsers, exposed for tests/run.js (no DOM needed to exercise them).
+  global.TopShelfParse = { parseCount: parseCount, firstNumber: firstNumber };
 })(typeof window !== "undefined" ? window : this);
