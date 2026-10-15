@@ -1,7 +1,28 @@
 /*
- * TopShelf UI styles. Goals: native-feeling, subtle, and zero layout shift
- * on Amazon's own tiles. All classes are ts- prefixed to avoid collisions.
+ * TopShelf on-page UI. Goals: native-feeling, quiet, zero layout shift on
+ * Amazon's own tiles, and polished enough to sit next to Amazon's chrome
+ * (and other extensions like Knockoff) without looking bolted-on.
+ * All classes are ts- prefixed to avoid collisions. No web fonts -- the
+ * system stack keeps the extension request-free.
  */
+
+.ts-chip,
+.ts-badge,
+.ts-popover {
+  --ts-navy: #131921;
+  --ts-navy-2: #232f3e;
+  --ts-gold: #febd69;
+  --ts-gold-2: #f3a847;
+  --ts-ink: #0f1111;
+  --ts-muted: #6b7280;
+  --ts-line: rgba(15, 17, 17, 0.08);
+  --ts-surface: rgba(255, 255, 255, 0.92);
+  --ts-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  --ts-shadow: 0 1px 2px rgba(15, 17, 17, 0.06), 0 8px 24px rgba(15, 17, 17, 0.12);
+}
+
+/* ---------------------------------------------------------------- tiles */
 
 /* Hidden tiles: removed from flow but node stays in the DOM (never deleted).
    !important so Amazon's own display rules on the tile can't override it. */
@@ -11,17 +32,22 @@
 
 /* Hidden tiles the user chose to reveal: in rank position, but dimmed. */
 .ts-revealed {
-  opacity: 0.5;
+  opacity: 0.45;
+  filter: grayscale(0.4);
+  transition: opacity 0.2s ease, filter 0.2s ease;
 }
 .ts-revealed:hover,
 .ts-revealed:focus-within {
   opacity: 1;
+  filter: none;
 }
 
 /* Positioning context for the badge; removed with the badge. */
 .ts-anchor {
   position: relative;
 }
+
+/* ---------------------------------------------------------------- badge */
 
 /* Rank badge in the top-RIGHT corner of a tile. Top-left is where Amazon
    renders its own "Best Seller" / "Overall Pick" ribbons; sharing that
@@ -30,106 +56,262 @@
    it, and it never paints into Amazon's elements. */
 .ts-badge {
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: 8px;
+  right: 8px;
   left: auto;
   z-index: 100;
   isolation: isolate;
-  min-width: 22px;
-  height: 22px;
-  padding: 0 6px;
-  border-radius: 11px;
-  background: #131921; /* Amazon's dark navy */
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 10px 0 7px;
+  border-radius: 999px;
+  background: var(--ts-navy);
   color: #fff;
-  font: 700 12px/22px Arial, sans-serif;
-  text-align: center;
+  font: 650 12px/1 var(--ts-font);
+  letter-spacing: 0.01em;
   cursor: pointer;
-  box-shadow: 0 0 0 2px #fff, 0 1px 4px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 0 2px #fff, 0 2px 8px rgba(15, 17, 17, 0.22);
   user-select: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
-.ts-badge-1 {
-  background: #b12704;
-} /* Amazon price-red for #1 */
-.ts-badge-2 {
-  background: #565959;
+.ts-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 2px #fff, 0 6px 16px rgba(15, 17, 17, 0.25);
 }
-.ts-badge-3 {
-  background: #6f4e1f;
+.ts-badge:focus-visible {
+  outline: 2px solid #007185;
+  outline-offset: 3px;
 }
 
-.ts-badge:focus {
-  outline: 2px solid #007185;
-  outline-offset: 1px;
+/* Little shelf mark inside the badge (three ascending bars). */
+.ts-badge-mark {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 1.5px;
+  height: 10px;
 }
+.ts-badge-mark i {
+  display: block;
+  width: 2.5px;
+  border-radius: 1px;
+  background: currentColor;
+  opacity: 0.55;
+}
+.ts-badge-mark i:nth-child(1) { height: 4px; }
+.ts-badge-mark i:nth-child(2) { height: 7px; }
+.ts-badge-mark i:nth-child(3) { height: 10px; opacity: 1; }
+
+/* #1 gold, #2 navy, #3 slate. */
+.ts-badge-1 {
+  background: linear-gradient(180deg, var(--ts-gold), var(--ts-gold-2));
+  color: var(--ts-navy);
+}
+.ts-badge-2 {
+  background: var(--ts-navy);
+}
+.ts-badge-3 {
+  background: #4b5563;
+}
+
+/* ---------------------------------------------------------------- popover */
 
 /* Reason popover, anchored under the badge and opening LEFTWARD from the
    tile's right edge so it stays inside the tile / viewport. */
 .ts-popover {
   position: absolute;
-  top: 26px;
-  right: 0;
+  top: 34px;
+  right: -8px;
   left: auto;
   z-index: 101;
-  width: 220px;
+  width: 248px;
   max-width: 70vw;
-  padding: 10px 12px;
+  padding: 12px;
   background: #fff;
-  color: #0f1111;
-  border: 1px solid #d5d9d9;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
-  font: 400 12px/1.4 Arial, sans-serif;
+  color: var(--ts-ink);
+  border: 1px solid var(--ts-line);
+  border-radius: 14px;
+  box-shadow: var(--ts-shadow);
+  font: 400 12.5px/1.45 var(--ts-font);
+  letter-spacing: 0;
   text-align: left;
   cursor: default;
+  animation: ts-pop 0.14s ease-out;
 }
+.ts-popover[hidden] {
+  display: none;
+}
+@keyframes ts-pop {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+
+.ts-pop-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0 0 8px;
+  padding: 0 2px;
+}
+.ts-pop-title {
+  font-weight: 650;
+  font-size: 13px;
+  color: var(--ts-ink);
+}
+.ts-pop-sub {
+  font-size: 11px;
+  color: var(--ts-muted);
+  white-space: nowrap;
+}
+
 .ts-popover ul {
   margin: 0;
   padding: 0;
   list-style: none;
+  display: grid;
+  gap: 4px;
 }
 .ts-popover li {
-  padding: 2px 0;
-  border-bottom: 1px solid #f0f2f2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: #f7f7f8;
+  font-variant-numeric: tabular-nums;
 }
-.ts-popover li:last-child {
-  border-bottom: none;
+.ts-popover li::before {
+  content: "";
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #9ca3af;
+}
+/* Reason tone: set by content.js from the reason text. */
+.ts-popover li.ts-good::before { background: #16a34a; }
+.ts-popover li.ts-bad::before { background: #dc2626; }
+.ts-popover li.ts-info::before { background: #d97706; }
+
+.ts-pop-foot {
+  margin: 8px 2px 0;
+  font-size: 10.5px;
+  color: var(--ts-muted);
 }
 
-/* Floating control chip, bottom-right. */
+/* ---------------------------------------------------------------- chip */
+
+/* Floating control chip, bottom-LEFT. Bottom-right is where other shopping
+   extensions (e.g. Knockoff) park their launcher; we stay out of its way. */
 .ts-chip {
   position: fixed;
-  right: 16px;
+  left: 16px;
   bottom: 16px;
   z-index: 2147483000; /* above Amazon overlays */
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 12px;
-  background: #131921;
-  color: #fff;
-  border-radius: 24px;
-  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.35);
-  font: 400 13px/1 Arial, sans-serif;
+  padding: 6px 6px 6px 10px;
+  background: var(--ts-surface);
+  -webkit-backdrop-filter: saturate(1.6) blur(14px);
+  backdrop-filter: saturate(1.6) blur(14px);
+  color: var(--ts-ink);
+  border: 1px solid var(--ts-line);
+  border-radius: 999px;
+  box-shadow: var(--ts-shadow);
+  font: 500 12.5px/1 var(--ts-font);
+  animation: ts-chip-in 0.25s ease-out;
 }
-.ts-chip-label {
-  font-weight: 700;
+@keyframes ts-chip-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+.ts-chip-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 650;
   white-space: nowrap;
 }
-.ts-chip button {
+.ts-chip-logo {
+  display: inline-flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2px;
+  width: 22px;
+  height: 22px;
+  padding: 0 0 5px;
+  border-radius: 7px;
+  background: var(--ts-navy);
+  box-sizing: border-box;
+}
+.ts-chip-logo i {
+  display: block;
+  width: 3px;
+  border-radius: 1px;
+  background: #9aa4ad;
+}
+.ts-chip-logo i:nth-child(1) { height: 5px; background: #dfe3e6; }
+.ts-chip-logo i:nth-child(2) { height: 8px; }
+.ts-chip-logo i:nth-child(3) { height: 11px; background: var(--ts-gold); }
+
+/* Segmented Ranked / Amazon switch. */
+.ts-seg {
+  display: inline-flex;
+  padding: 2px;
+  border-radius: 999px;
+  background: rgba(15, 17, 17, 0.06);
+}
+.ts-seg button,
+.ts-chip-hidden {
   appearance: none;
-  border: 1px solid #3a4553;
-  background: #232f3e;
-  color: #fff;
-  border-radius: 16px;
-  padding: 5px 10px;
-  font: 400 12px/1 Arial, sans-serif;
+  border: 0;
+  margin: 0;
+  background: transparent;
+  color: var(--ts-muted);
+  font: 550 12px/1 var(--ts-font);
+  padding: 6px 11px;
+  border-radius: 999px;
   cursor: pointer;
   white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
 }
-.ts-chip button:hover {
-  background: #37475a;
+.ts-seg button:hover {
+  color: var(--ts-ink);
 }
-.ts-chip button:focus {
-  outline: 2px solid #febd69; /* Amazon gold */
+.ts-seg button[aria-pressed="true"] {
+  background: #fff;
+  color: var(--ts-ink);
+  box-shadow: 0 1px 2px rgba(15, 17, 17, 0.12);
+}
+
+.ts-chip-hidden {
+  color: var(--ts-ink);
+  background: rgba(15, 17, 17, 0.06);
+}
+.ts-chip-hidden:hover {
+  background: rgba(15, 17, 17, 0.1);
+}
+.ts-chip-hidden[hidden] {
+  display: none;
+}
+
+.ts-seg button:focus-visible,
+.ts-chip-hidden:focus-visible {
+  outline: 2px solid #007185;
   outline-offset: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ts-chip,
+  .ts-popover {
+    animation: none;
+  }
+  .ts-badge,
+  .ts-revealed {
+    transition: none;
+  }
 }

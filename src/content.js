@@ -14,6 +14,7 @@
   "use strict";
 
   var DEFAULTS = {
+    enabled: true,
     mode: "quality",
     floor: "standard",
     sponsored: "demote",
@@ -120,21 +121,47 @@
   function makeBadge(rank, reasons) {
     var badge = document.createElement("div");
     badge.className = "ts-badge ts-badge-" + rank;
-    badge.textContent = "#" + rank;
     badge.setAttribute("role", "button");
     badge.setAttribute("tabindex", "0");
     badge.setAttribute("aria-label", "TopShelf rank " + rank + ". Show why.");
 
+    var mark = document.createElement("span");
+    mark.className = "ts-badge-mark";
+    mark.innerHTML = "<i></i><i></i><i></i>";
+    badge.appendChild(mark);
+
+    var txt = document.createElement("span");
+    txt.textContent = "#" + rank;
+    badge.appendChild(txt);
+
     var pop = document.createElement("div");
     pop.className = "ts-popover";
     pop.hidden = true;
+
+    var head = document.createElement("div");
+    head.className = "ts-pop-head";
+    head.innerHTML =
+      '<span class="ts-pop-title">TopShelf Rank #' + rank + '</span>' +
+      '<span class="ts-pop-sub">Scored</span>';
+    pop.appendChild(head);
+
     var ul = document.createElement("ul");
     for (var i = 0; i < reasons.length; i++) {
+      var r = reasons[i];
       var li = document.createElement("li");
-      li.textContent = reasons[i];
+      li.textContent = r;
+      if (/^[45]\.|\+|known/i.test(r)) li.className = "ts-good";
+      else if (/[−\-]|\blow\b|farm|suspect|flagged|below/i.test(r)) li.className = "ts-bad";
+      else li.className = "ts-info";
       ul.appendChild(li);
     }
     pop.appendChild(ul);
+
+    var foot = document.createElement("div");
+    foot.className = "ts-pop-foot";
+    foot.textContent = "Confidence-weighted Bayesian rank";
+    pop.appendChild(foot);
+
     badge.appendChild(pop);
 
     function toggle(e) {
@@ -223,17 +250,35 @@
     chip = document.createElement("div");
     chip.className = "ts-chip";
     chip.innerHTML =
-      '<span class="ts-chip-label"></span>' +
-      '<button class="ts-chip-toggle" type="button"></button>' +
+      '<div class="ts-chip-brand">' +
+        '<span class="ts-chip-logo"><i></i><i></i><i></i></span>' +
+        '<span>TopShelf</span>' +
+      '</div>' +
+      '<div class="ts-seg">' +
+        '<button class="ts-seg-btn ts-chip-toggle ts-btn-ranked" type="button" aria-pressed="true">Ranked</button>' +
+        '<button class="ts-seg-btn ts-chip-toggle ts-btn-original" type="button" aria-pressed="false">Original</button>' +
+      '</div>' +
       '<button class="ts-chip-hidden" type="button" hidden></button>';
     document.body.appendChild(chip);
 
-    chip.querySelector(".ts-chip-toggle").addEventListener("click", function () {
-      currentView = currentView === "ranked" ? "original" : "ranked";
+    var btnRanked = chip.querySelector(".ts-btn-ranked");
+    var btnOriginal = chip.querySelector(".ts-btn-original");
+
+    btnRanked.addEventListener("click", function () {
+      if (currentView === "ranked") return;
+      currentView = "ranked";
       var c = getContainer();
       if (!c) return;
-      if (currentView === "ranked") renderRanked(c);
-      else renderOriginal(c);
+      renderRanked(c);
+      updateChip();
+    });
+
+    btnOriginal.addEventListener("click", function () {
+      if (currentView === "original") return;
+      currentView = "original";
+      var c = getContainer();
+      if (!c) return;
+      renderOriginal(c);
       updateChip();
     });
 
@@ -255,14 +300,14 @@
     for (var i = 0; i < lastScored.length; i++) {
       if (lastScored[i].result.hidden) hiddenCount++;
     }
-    var label = chip.querySelector(".ts-chip-label");
-    var toggle = chip.querySelector(".ts-chip-toggle");
+    var btnRanked = chip.querySelector(".ts-btn-ranked");
+    var btnOriginal = chip.querySelector(".ts-btn-original");
     var hiddenBtn = chip.querySelector(".ts-chip-hidden");
 
-    label.textContent =
-      "TopShelf · " + (currentView === "ranked" ? "Ranked" : "Original");
-    toggle.textContent =
-      currentView === "ranked" ? "Original order" : "Rank best-first";
+    if (btnRanked && btnOriginal) {
+      btnRanked.setAttribute("aria-pressed", currentView === "ranked" ? "true" : "false");
+      btnOriginal.setAttribute("aria-pressed", currentView === "original" ? "true" : "false");
+    }
 
     if (hiddenCount > 0 && currentView === "ranked") {
       hiddenBtn.hidden = false;
@@ -298,13 +343,33 @@
       }
     }
 
+    if (settings.enabled === false) {
+      clearDecorations(container);
+      if (currentView === "ranked") renderOriginal(container);
+      if (chip) chip.style.display = "none";
+      return;
+    }
+    if (chip) chip.style.display = "flex";
+
     var tiles = window.TopShelfScrape(container);
     if (!tiles.length) return;
 
     var results = window.TopShelfScore(tiles, settings);
     lastScored = [];
+    var hiddenCount = 0;
     for (var i = 0; i < tiles.length; i++) {
       lastScored.push({ tile: tiles[i], result: results[i] });
+      if (results[i].hidden) hiddenCount++;
+    }
+
+    if (chrome && chrome.storage && chrome.storage.local) {
+      chrome.storage.local.set({
+        topShelfPageStats: {
+          total: tiles.length,
+          hidden: hiddenCount,
+          time: Date.now()
+        }
+      });
     }
 
     if (currentView === "ranked") renderRanked(container);
