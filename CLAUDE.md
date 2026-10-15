@@ -52,10 +52,11 @@ multipliers (compounding):
 VALUE mode: score = base_after_multipliers / log10(price + 10)
             (null/zero price → quality score, unchanged)
 
-hide floor (setting):
+hide floor (setting) — judged on `base` (quality, same scale as m), NOT the
+final score; multipliers and value mode reorder but never trip the floor:
   off        → nothing hidden except koVerdict "flagged" (+ sponsored=hide)
-  standard   → hidden if score < m − 0.6
-  aggressive → hidden if score < m − 0.3
+  standard   → hidden if base < m − 0.6
+  aggressive → hidden if base < m − 0.3
 ```
 
 Every multiplier that fires pushes a human-readable string into reasons[] —

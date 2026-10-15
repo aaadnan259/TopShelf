@@ -116,6 +116,59 @@ var FIXTURES = [
     shown: ["GOOD_A", "GOOD_B", "GOOD_C"]
   },
 
+  // ---- Floor regressions (realistic phone-charger page) ----
+  // The floor used to compare the FINAL score to m - 0.6. Value mode divides
+  // by log10(price + 10) (~1.3-1.6), so every priced product fell under it.
+  {
+    name: "value mode on standard floor does not hide ordinary products",
+    settings: { mode: "value", floor: "standard", sponsored: "demote" },
+    tiles: [
+      { asin: "ANKER", rating: 4.6, reviews: 4123, price: 25.99, sponsored: false },
+      { asin: "UGREEN", rating: 4.7, reviews: 4700, price: 13.99, sponsored: false },
+      { asin: "MID", rating: 4.3, reviews: 900, price: 9.99, sponsored: false },
+      { asin: "OTHER", rating: 4.5, reviews: 3000, price: 15.99, sponsored: false }
+    ],
+    shown: ["ANKER", "UGREEN", "MID", "OTHER"],
+    order: ["UGREEN", "ANKER"]
+  },
+
+  // "Demote" must not silently mean "hide": 4.4 x 0.85 = 3.74 used to fall
+  // under the m - 0.6 floor on an average page.
+  {
+    name: "demoted sponsored tile is not hidden by the standard floor",
+    settings: { mode: "quality", floor: "standard", sponsored: "demote" },
+    tiles: [
+      { asin: "A", rating: 4.6, reviews: 4123, price: 26, sponsored: false },
+      { asin: "B", rating: 4.5, reviews: 3000, price: 16, sponsored: false },
+      { asin: "SPON44", rating: 4.4, reviews: 20000, price: 20, sponsored: true }
+    ],
+    shown: ["SPON44"],
+    order: ["A", "B", "SPON44"]
+  },
+
+  // README promise: the review-farm signal demotes but never hides on its own.
+  {
+    name: "review-farm tile is not hidden by the standard floor",
+    settings: { mode: "quality", floor: "standard", sponsored: "demote" },
+    tiles: [
+      { asin: "FARM", rating: 4.9, reviews: 40, price: 20, sponsored: false },
+      { asin: "ORG1", rating: 4.5, reviews: 3000, price: 20, sponsored: false },
+      { asin: "ORG2", rating: 4.4, reviews: 2000, price: 20, sponsored: false }
+    ],
+    shown: ["FARM"]
+  },
+
+  // Unknown review count must not be shown as a real "x 0".
+  {
+    name: "unknown review count does not crash",
+    settings: { mode: "quality", floor: "standard", sponsored: "demote" },
+    tiles: [
+      { asin: "NOREV", rating: 4.5, reviews: null, price: 20, sponsored: false },
+      { asin: "REV", rating: 4.5, reviews: 2000, price: 20, sponsored: false }
+    ],
+    shown: ["NOREV", "REV"]
+  },
+
   {
     name: "all-null tile does not crash or produce NaN",
     settings: { mode: "value", floor: "aggressive", sponsored: "hide" },

@@ -61,10 +61,18 @@
       var r = reviews === null ? 0 : reviews;
       base = (CONFIDENCE * m + rating * r) / (CONFIDENCE + r);
       reasons.push(
-        fmt(rating, 1) + "★ × " + group(reviews === null ? 0 : reviews)
+        reviews === null
+          ? fmt(rating, 1) + "★ · reviews unknown"
+          : fmt(rating, 1) + "★ × " + group(reviews)
       );
     }
 
+    // `quality` is the confidence-weighted star estimate, on the same scale
+    // as the page prior m. The hide floor judges THIS, never the final score:
+    // sponsored/review-farm penalties and value-mode division are ranking
+    // adjustments, and comparing them to m - 0.6 made "demote" mean "hide"
+    // and made value mode hide every priced product.
+    var quality = base;
     var score = base;
 
     // ---- Compounding multipliers ----
@@ -123,19 +131,22 @@
       }
     }
 
-    return { score: score, hidden: hidden, reasons: reasons };
+    return { score: score, quality: quality, hidden: hidden, reasons: reasons };
   }
 
   // Apply the hide floor. flagged tiles are already hidden in scoreOne.
+  // Judged on `quality` (stars, same scale as m) so that ranking-only
+  // adjustments -- sponsored demotion, review-farm demotion, value mode --
+  // reorder tiles but can never push them under the floor.
   function applyFloor(result, m, floor) {
     if (result.hidden) return; // already hidden (flagged / sponsored-hide)
     if (floor === "standard") {
-      if (result.score < m - 0.6) {
+      if (result.quality < m - 0.6) {
         result.hidden = true;
         result.reasons.push("below floor (m−0.6)");
       }
     } else if (floor === "aggressive") {
-      if (result.score < m - 0.3) {
+      if (result.quality < m - 0.3) {
         result.hidden = true;
         result.reasons.push("below floor (m−0.3)");
       }
