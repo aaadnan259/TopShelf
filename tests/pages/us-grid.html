@@ -1,0 +1,299 @@
+<!doctype html>
+<!--
+  Trimmed snapshot of an amazon.com search page (grid layout, query
+  "portable charger"). Markup shapes follow Amazon's live s-search-result
+  cards; images, scripts and most utility classes are stripped, and ASINs
+  are placeholders. Expected values live in tests/scraper-pages.js.
+
+  Each tile exercises a scraper bug that has shipped before:
+    B0ANKER001  visible "4.6" before the stars (old: 46 reviews), compact
+                "(4.1K)" count (old: ignored), split price "25." + "99"
+                (old: 25 reviews), Best Seller ribbon, nested add-to-cart
+                div[data-asin] (old: scraped as its own tile)
+    B0SPONS002  sponsored card, nested add-to-cart div[data-asin]
+    B0NORATE04  no rating block at all; $1,299.00 price; coupon and colour
+                swatch text that must not read as a count
+    B0KNOCKO05  Knockoff data-ko-* attributes; strike-through list price
+                after the real price
+    B0OLDMRK06  older markup: count only inside span[aria-label] > a
+  Plus the non-products that must be skipped: a data-asin="" results
+  header, a carousel of data-asin cards with their own h2 titles, and an
+  inline script containing tile-shaped markup.
+-->
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<title>Amazon.com : portable charger</title>
+</head>
+<body>
+<div id="search">
+<div class="s-desktop-toolbar">
+  <span>1-16 of over 10,000 results for <span class="a-color-state a-text-bold">"portable charger"</span></span>
+</div>
+<div class="s-main-slot s-result-list s-search-results sg-row">
+
+<div data-asin="" data-index="0" data-uuid="9e2f1c" class="s-result-item s-widget s-widget-spacing-large AdHolder s-flex-full-width">
+  <div class="sg-col-inner">
+    <h2 class="a-size-medium-plus a-spacing-none a-color-base a-text-bold">Results</h2>
+    <div class="a-section a-spacing-none"><span class="a-color-secondary">Check each product page for other buying options.</span></div>
+  </div>
+</div>
+
+<div data-asin="B0ANKER001" data-index="1" data-uuid="0a1b2c" data-component-type="s-search-result" class="sg-col-4-of-24 sg-col-4-of-12 s-result-item s-asin sg-col-4-of-16 sg-col s-widget-spacing-small sg-col-4-of-20" data-cel-widget="search_result_1">
+  <div class="sg-col-inner">
+    <div cel_widget_id="MAIN-SEARCH_RESULTS-1" class="s-widget-container s-spacing-small s-widget-container-height-small celwidget slot=MAIN template=SEARCH_RESULTS widgetId=search-results_1">
+      <div data-component-type="s-impression-logger" class="rush-component s-featured-result-item">
+        <div class="puis-card-container s-card-container s-overflow-hidden aok-relative puis-include-content-margin puis puis-v3e2wbg1vpr8x9rlmeo s-latency-cf-section puis-card-border">
+          <div class="a-section a-spacing-base">
+            <div class="a-row a-badge-region">
+              <span class="a-badge" aria-labelledby="B0ANKER001-best-seller-label" data-a-badge-color="sx-orange" role="link">
+                <span id="B0ANKER001-best-seller-label" class="a-badge-label" aria-hidden="true">
+                  <span class="a-badge-label-inner a-text-ellipsis"><span class="a-badge-text" data-a-badge-color="sx-cloud">Best Seller</span></span>
+                </span>
+                <span class="a-badge-supplementary-text a-text-ellipsis">in Power Banks</span>
+              </span>
+            </div>
+            <div class="s-product-image-container aok-relative s-text-center s-image-overlay-grey puis-image-overlay-grey s-padding-left-small s-padding-right-small puis-spacing-small s-height-equalized puis puis-v3e2wbg1vpr8x9rlmeo">
+              <span data-component-type="s-product-image" class="rush-component">
+                <a class="a-link-normal s-no-outline" tabindex="-1" href="/Anker-Portable-Charger/dp/B0ANKER001/ref=sr_1_1?keywords=portable+charger&amp;qid=1760500000&amp;sr=8-1">
+                  <div class="a-section aok-relative s-image-square-aspect"><img class="s-image" src="data:," alt="Anker Portable Charger, 10,000mAh Power Bank"></div>
+                </a>
+              </span>
+            </div>
+            <div class="a-section a-spacing-small puis-padding-left-small puis-padding-right-small">
+              <div data-cy="title-recipe" class="a-section a-spacing-none a-spacing-top-small s-title-instructions-style">
+                <a class="a-link-normal s-line-clamp-4 s-link-style a-text-normal" href="/Anker-Portable-Charger/dp/B0ANKER001/ref=sr_1_1">
+                  <h2 aria-label="Anker Portable Charger, 10,000mAh Power Bank with 20W Fast Charging" class="a-size-base-plus a-spacing-none a-color-base a-text-normal"><span>Anker Portable Charger, 10,000mAh Power Bank with 20W Fast Charging</span></h2>
+                </a>
+              </div>
+              <div data-cy="reviews-block" class="a-section a-spacing-none a-spacing-top-micro">
+                <div class="a-row a-size-small">
+                  <span class="a-declarative" data-version-id="v1" data-render-id="r1" data-action="a-popover">
+                    <a aria-label="4.6 out of 5 stars, rating details" href="javascript:void(0)" role="button" class="a-popover-trigger a-declarative">
+                      <span aria-hidden="true" class="a-size-small a-color-base">4.6</span>
+                      <i data-cy="reviews-ratings-slot" aria-hidden="true" class="a-icon a-icon-star-mini a-star-mini-4-5"><span class="a-icon-alt">4.6 out of 5 stars</span></i><i class="a-icon a-icon-popover"></i>
+                    </a>
+                  </span>
+                  <span data-component-type="s-client-side-analytics" class="rush-component" data-component-id="7">
+                    <div style="display: inline-block">
+                      <a aria-label="4,117 ratings" class="a-link-normal s-underline-text s-underline-link-text s-link-style" href="/product-reviews/B0ANKER001/ref=sr_1_1#customerReviews"><span aria-hidden="true" class="a-size-small puis-normal-weight-text s-underline-text">(4.1K)</span></a>
+                    </div>
+                  </span>
+                </div>
+                <div class="a-row a-size-base"><span class="a-size-base a-color-secondary">10K+ bought in past month</span></div>
+              </div>
+              <div data-cy="price-recipe" class="a-section a-spacing-none a-spacing-top-small s-price-instructions-style">
+                <div class="a-row a-size-base a-color-base">
+                  <div class="a-row">
+                    <a class="a-link-normal s-no-hover s-underline-text s-underline-link-text s-link-style a-text-normal" href="/Anker-Portable-Charger/dp/B0ANKER001/ref=sr_1_1">
+                      <span class="a-price" data-a-size="xl" data-a-color="base"><span class="a-offscreen">$25.99</span><span aria-hidden="true"><span class="a-price-symbol">$</span><span class="a-price-whole">25<span class="a-price-decimal">.</span></span><span class="a-price-fraction">99</span></span></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div data-cy="delivery-recipe" class="a-section a-spacing-none a-spacing-top-micro">
+                <div class="a-row a-size-base a-color-secondary s-align-children-center"><span aria-label="FREE delivery Fri, Oct 17 on $35 of items shipped by Amazon"><span class="a-color-base">FREE delivery </span><span class="a-color-base a-text-bold">Fri, Oct 17 </span></span></div>
+              </div>
+              <div data-cy="add-to-cart" class="a-section a-spacing-none a-spacing-top-mini">
+                <div class="puis-atcb-container" data-asin="B0ANKER001" data-csa-c-item-id="amzn1.asin.B0ANKER001">
+                  <span class="a-button a-button-primary a-button-small"><span class="a-button-inner"><button name="submit.addToCart" class="a-button-text" type="button">Add to cart</button></span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-asin="B0SPONS002" data-index="2" data-uuid="1b2c3d" data-component-type="s-search-result" class="sg-col-4-of-24 sg-col-4-of-12 s-result-item s-asin sg-col-4-of-16 AdHolder sg-col s-widget-spacing-small sg-col-4-of-20" data-cel-widget="search_result_2">
+  <div class="sg-col-inner">
+    <div cel_widget_id="MAIN-SEARCH_RESULTS-2" class="s-widget-container s-spacing-small s-widget-container-height-small celwidget slot=MAIN template=SEARCH_RESULTS widgetId=search-results_2">
+      <div class="puis-card-container s-card-container s-overflow-hidden aok-relative puis-include-content-margin puis puis-v3e2wbg1vpr8x9rlmeo s-latency-cf-section puis-card-border">
+        <div class="a-section a-spacing-base">
+          <div class="s-product-image-container aok-relative s-text-center s-image-overlay-grey puis-image-overlay-grey">
+            <span data-component-type="s-product-image" class="rush-component">
+              <a class="a-link-normal s-no-outline" tabindex="-1" href="/sspa/click?ie=UTF8&amp;spc=MTo1&amp;url=%2Fdp%2FB0SPONS002"><div class="a-section aok-relative s-image-square-aspect"><img class="s-image" src="data:," alt="Sponsored Ad - INIU Power Bank"></div></a>
+            </span>
+          </div>
+          <div class="a-section a-spacing-small puis-padding-left-small puis-padding-right-small">
+            <div class="a-row a-spacing-micro">
+              <span class="a-declarative" data-action="a-popover">
+                <a href="javascript:void(0)" role="button" style="text-decoration: none;" class="puis-label-popover puis-sponsored-label-text">
+                  <span class="puis-label-popover-default"><span aria-label="View Sponsored information or leave ad feedback" class="a-color-secondary">Sponsored</span></span>
+                  <span class="puis-label-popover-hover"><span aria-hidden="true" class="a-color-base">Sponsored</span></span>
+                  <i class="a-icon a-icon-popover aok-align-center puis-ml-mini" role="presentation"></i>
+                </a>
+              </span>
+            </div>
+            <div data-cy="title-recipe" class="a-section a-spacing-none a-spacing-top-small s-title-instructions-style">
+              <a class="a-link-normal s-line-clamp-4 s-link-style a-text-normal" href="/sspa/click?url=%2Fdp%2FB0SPONS002">
+                <h2 aria-label="Sponsored Ad - INIU Portable Charger, Slimmest 10000mAh 5V/3A Power Bank" class="a-size-base-plus a-spacing-none a-color-base a-text-normal"><span>INIU Portable Charger, Slimmest 10000mAh 5V/3A Power Bank</span></h2>
+              </a>
+            </div>
+            <div data-cy="reviews-block" class="a-section a-spacing-none a-spacing-top-micro">
+              <div class="a-row a-size-small">
+                <span class="a-declarative" data-action="a-popover">
+                  <a aria-label="4.3 out of 5 stars, rating details" href="javascript:void(0)" role="button" class="a-popover-trigger a-declarative">
+                    <span aria-hidden="true" class="a-size-small a-color-base">4.3</span>
+                    <i aria-hidden="true" class="a-icon a-icon-star-mini a-star-mini-4-5"><span class="a-icon-alt">4.3 out of 5 stars</span></i>
+                  </a>
+                </span>
+                <span data-component-type="s-client-side-analytics" class="rush-component">
+                  <div style="display: inline-block"><a aria-label="812 ratings" class="a-link-normal s-underline-text s-underline-link-text s-link-style" href="/sspa/click?url=%2Fproduct-reviews%2FB0SPONS002"><span aria-hidden="true" class="a-size-small puis-normal-weight-text s-underline-text">(812)</span></a></div>
+                </span>
+              </div>
+            </div>
+            <div data-cy="price-recipe" class="a-section a-spacing-none a-spacing-top-small s-price-instructions-style">
+              <div class="a-row a-size-base a-color-base">
+                <a class="a-link-normal s-no-hover s-underline-text s-underline-link-text s-link-style a-text-normal" href="/sspa/click?url=%2Fdp%2FB0SPONS002">
+                  <span class="a-price" data-a-size="xl" data-a-color="base"><span class="a-offscreen">$19.99</span><span aria-hidden="true"><span class="a-price-symbol">$</span><span class="a-price-whole">19<span class="a-price-decimal">.</span></span><span class="a-price-fraction">99</span></span></span>
+                </a>
+              </div>
+            </div>
+            <div data-cy="add-to-cart" class="a-section a-spacing-none a-spacing-top-mini">
+              <div class="puis-atcb-container" data-asin="B0SPONS002">
+                <span class="a-button a-button-primary a-button-small"><span class="a-button-inner"><button class="a-button-text" type="button">Add to cart</button></span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  // Amazon inlines templates like this; a naive parser would see a tile.
+  P.when("A").execute(function(){ var tpl = '<div data-asin="B0SCRIPT99" data-component-type="s-search-result"><h2><span>ghost</span></h2></div>'; });
+</script>
+
+<div data-asin="" data-index="3" data-uuid="2c3d4e" data-component-type="s-impression-logger" class="s-result-item s-widget s-widget-spacing-large s-flex-full-width">
+  <div class="sg-col-inner">
+    <span class="a-size-medium-plus a-color-base a-text-bold">Highly rated</span>
+    <div class="a-carousel-container a-carousel-display-swap a-carousel-initialized">
+      <div class="a-row a-carousel-controls a-carousel-row a-carousel-has-buttons">
+        <div class="a-carousel-viewport">
+          <ol class="a-carousel" role="list">
+            <li class="a-carousel-card" role="listitem">
+              <div data-asin="B0CAROU001" class="a-section a-spacing-none puis-card-container">
+                <h2 class="a-size-base a-spacing-none a-color-base a-text-normal"><span>Carousel Power Bank One</span></h2>
+                <i class="a-icon a-icon-star-small a-star-small-4-5"><span class="a-icon-alt">4.5 out of 5 stars</span></i>
+                <span class="a-size-base s-underline-text">2,031</span>
+                <span class="a-price"><span class="a-offscreen">$22.99</span></span>
+              </div>
+            </li>
+            <li class="a-carousel-card" role="listitem">
+              <div data-asin="B0CAROU002" class="a-section a-spacing-none puis-card-container">
+                <h2 class="a-size-base a-spacing-none a-color-base a-text-normal"><span>Carousel Power Bank Two</span></h2>
+                <span class="a-price"><span class="a-offscreen">$15.99</span></span>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-asin="B0NORATE04" data-index="4" data-uuid="3d4e5f" data-component-type="s-search-result" class="sg-col-4-of-24 sg-col-4-of-12 s-result-item s-asin sg-col-4-of-16 sg-col s-widget-spacing-small sg-col-4-of-20">
+  <div class="sg-col-inner">
+    <div class="puis-card-container s-card-container s-overflow-hidden aok-relative puis-include-content-margin puis puis-card-border">
+      <div class="a-section a-spacing-base">
+        <div class="s-product-image-container aok-relative s-text-center">
+          <span data-component-type="s-product-image" class="rush-component"><a class="a-link-normal s-no-outline" href="/dp/B0NORATE04"><div class="a-section aok-relative s-image-square-aspect"><img class="s-image" src="data:," alt="Jackery Explorer 1000 v2"></div></a></span>
+        </div>
+        <div class="a-section a-spacing-small puis-padding-left-small puis-padding-right-small">
+          <div data-cy="title-recipe" class="a-section a-spacing-none a-spacing-top-small s-title-instructions-style">
+            <a class="a-link-normal s-line-clamp-4 s-link-style a-text-normal" href="/dp/B0NORATE04"><h2 class="a-size-base-plus a-spacing-none a-color-base a-text-normal"><span>Jackery Explorer 1000 v2 Portable Power Station, 1070Wh LiFePO4 Battery</span></h2></a>
+          </div>
+          <div class="a-row a-size-base a-color-secondary s-align-children-center">
+            <a class="a-link-normal s-underline-text s-underline-link-text s-link-style" href="/dp/B0NORATE04"><span>+5 other colors/patterns</span></a>
+          </div>
+          <div data-cy="price-recipe" class="a-section a-spacing-none a-spacing-top-small s-price-instructions-style">
+            <div class="a-row a-size-base a-color-base">
+              <a class="a-link-normal s-no-hover s-underline-text s-underline-link-text s-link-style a-text-normal" href="/dp/B0NORATE04">
+                <span class="a-price" data-a-size="xl" data-a-color="base"><span class="a-offscreen">$1,299.00</span><span aria-hidden="true"><span class="a-price-symbol">$</span><span class="a-price-whole">1,299<span class="a-price-decimal">.</span></span><span class="a-price-fraction">00</span></span></span>
+              </a>
+            </div>
+            <div class="a-row a-size-base a-color-secondary"><span class="s-coupon-unclipped"><span class="a-size-base s-highlighted-text-padding aok-inline-block s-coupon-highlight-color">Save 15%</span> <span class="a-color-base">with coupon</span></span></div>
+          </div>
+          <div class="a-row a-size-base a-color-secondary s-align-children-center">
+            <i class="a-icon a-icon-prime a-icon-medium" role="img" aria-label="Amazon Prime"></i>
+            <span class="a-color-price">Only 3 left in stock - order soon.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-asin="B0KNOCKO05" data-index="5" data-uuid="4e5f6a" data-component-type="s-search-result" data-ko-verdict="suspect" data-ko-brand="ZXQWE" class="sg-col-4-of-24 sg-col-4-of-12 s-result-item s-asin sg-col-4-of-16 sg-col s-widget-spacing-small sg-col-4-of-20">
+  <div class="sg-col-inner">
+    <div class="puis-card-container s-card-container s-overflow-hidden aok-relative puis-include-content-margin puis puis-card-border">
+      <div class="a-section a-spacing-base">
+        <div class="a-section a-spacing-small puis-padding-left-small puis-padding-right-small">
+          <div data-cy="title-recipe" class="a-section a-spacing-none a-spacing-top-small s-title-instructions-style">
+            <a class="a-link-normal s-line-clamp-4 s-link-style a-text-normal" href="/dp/B0KNOCKO05"><h2 class="a-size-base-plus a-spacing-none a-color-base a-text-normal"><span>ZXQWE Power Bank 50000mAh Ultra Slim Fast Charging</span></h2></a>
+          </div>
+          <div data-cy="reviews-block" class="a-section a-spacing-none a-spacing-top-micro">
+            <div class="a-row a-size-small">
+              <span class="a-declarative" data-action="a-popover">
+                <a aria-label="4.9 out of 5 stars, rating details" href="javascript:void(0)" role="button" class="a-popover-trigger a-declarative">
+                  <span aria-hidden="true" class="a-size-small a-color-base">4.9</span>
+                  <i aria-hidden="true" class="a-icon a-icon-star-mini a-star-mini-5"><span class="a-icon-alt">4.9 out of 5 stars</span></i>
+                </a>
+              </span>
+              <span data-component-type="s-client-side-analytics" class="rush-component">
+                <div style="display: inline-block"><a aria-label="47 ratings" class="a-link-normal s-underline-text s-underline-link-text s-link-style" href="/product-reviews/B0KNOCKO05"><span aria-hidden="true" class="a-size-small puis-normal-weight-text s-underline-text">(47)</span></a></div>
+              </span>
+            </div>
+          </div>
+          <div data-cy="price-recipe" class="a-section a-spacing-none a-spacing-top-small s-price-instructions-style">
+            <div class="a-row a-size-base a-color-base">
+              <a class="a-link-normal s-no-hover s-underline-text s-underline-link-text s-link-style a-text-normal" href="/dp/B0KNOCKO05">
+                <span class="a-price" data-a-size="xl" data-a-color="base"><span class="a-offscreen">$12.99</span><span aria-hidden="true"><span class="a-price-symbol">$</span><span class="a-price-whole">12<span class="a-price-decimal">.</span></span><span class="a-price-fraction">99</span></span></span>
+                <div class="a-section aok-inline-block"><span class="a-size-base a-color-secondary">List: </span><span class="a-price a-text-price" data-a-size="b" data-a-strike="true" data-a-color="secondary"><span class="a-offscreen">$29.99</span><span aria-hidden="true">$29.99</span></span></div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-asin="B0OLDMRK06" data-index="6" data-uuid="5f6a7b" data-component-type="s-search-result" class="s-result-item s-asin sg-col-0-of-12 sg-col-16-of-20 sg-col s-widget-spacing-small sg-col-12-of-16">
+  <div class="sg-col-inner">
+    <div class="s-card-container s-overflow-hidden aok-relative s-include-content-margin s-latency-cf-section s-card-border">
+      <div class="a-section a-spacing-small s-padding-left-small s-padding-right-small">
+        <div class="a-section a-spacing-none a-spacing-top-small s-title-instructions-style">
+          <h2 class="a-size-mini a-spacing-none a-color-base s-line-clamp-4"><a class="a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal" href="/dp/B0OLDMRK06"><span class="a-size-base-plus a-color-base a-text-normal">Belkin BoostCharge 20K Power Bank, USB-C PD 20W</span></a></h2>
+        </div>
+        <div class="a-section a-spacing-none a-spacing-top-micro">
+          <div class="a-row a-size-small">
+            <span aria-label="4.4 out of 5 stars"><span class="a-declarative" data-action="a-popover"><a href="javascript:void(0)" role="button" class="a-popover-trigger a-declarative"><i class="a-icon a-icon-star-small a-star-small-4-5 aok-align-bottom"><span class="a-icon-alt">4.4 out of 5 stars</span></i><i class="a-icon a-icon-popover"></i></a></span></span>
+            <span aria-label="8,240"><a class="a-link-normal s-underline-text s-underline-link-text s-link-style" href="/product-reviews/B0OLDMRK06"><span class="a-size-base s-underline-text">8,240</span></a></span>
+          </div>
+        </div>
+        <div class="a-section a-spacing-none a-spacing-top-small s-price-instructions-style">
+          <div class="a-row a-size-base a-color-base">
+            <a class="a-size-base a-link-normal s-no-hover s-underline-text s-underline-link-text s-link-style a-text-normal" href="/dp/B0OLDMRK06"><span class="a-price" data-a-size="xl" data-a-color="base"><span class="a-offscreen">$34.50</span><span aria-hidden="true"><span class="a-price-symbol">$</span><span class="a-price-whole">34<span class="a-price-decimal">.</span></span><span class="a-price-fraction">50</span></span></span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-asin="" data-index="7" class="s-result-item s-widget s-widget-spacing-large s-flex-full-width">
+  <div class="sg-col-inner">
+    <span class="s-pagination-strip"><span class="s-pagination-item s-pagination-selected">1</span><a class="s-pagination-item s-pagination-button" href="/s?k=portable+charger&amp;page=2">2</a><a class="s-pagination-item s-pagination-button" href="/s?k=portable+charger&amp;page=3">3</a><span class="s-pagination-item s-pagination-ellipsis">...</span><span class="s-pagination-item s-pagination-disabled">20</span></span>
+  </div>
+</div>
+
+</div>
+</div>
+</body>
+</html>

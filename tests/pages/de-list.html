@@ -1,0 +1,115 @@
+<!doctype html>
+<!--
+  Trimmed snapshot of an amazon.de search page (list layout, query
+  "powerbank"). Same s-search-result card shapes as amazon.com, but with
+  German decimal commas and dot-grouped thousands. Images and scripts are
+  stripped and ASINs are placeholders. Expected values live in
+  tests/scraper-pages.js.
+
+    B0DEORG001  "4,6 von 5 Sternen", visible "4,6" before the stars,
+                dot-grouped "1.234" count, "29,99 €" price, a "Mehr als
+                1.000 Mal ... gekauft" badge that is not a count
+    B0DESPN002  "Gesponsert" label (class-based detection, not the English
+                word), "(12.345)" count, "1.299,00 €" price
+    B0DENOAL03  rating only on the star icon's aria-label (no .a-icon-alt),
+                no price (currently unavailable)
+-->
+<html lang="de-de">
+<head><meta charset="utf-8"><title>Amazon.de : powerbank</title></head>
+<body>
+<div class="s-main-slot s-result-list s-search-results sg-row">
+
+<div data-asin="B0DEORG001" data-index="1" data-component-type="s-search-result" class="s-result-item s-asin sg-col-0-of-12 sg-col-16-of-20 sg-col s-widget-spacing-small sg-col-12-of-16">
+  <div class="sg-col-inner">
+    <div class="puis-card-container s-card-container s-overflow-hidden aok-relative puis-expand-height puis-include-content-margin puis puis-card-border">
+      <div class="a-section">
+        <div class="puis-list-col-right">
+          <div data-cy="title-recipe" class="a-section a-spacing-none puis-padding-right-small s-title-instructions-style">
+            <a class="a-link-normal s-line-clamp-2 s-link-style a-text-normal" href="/dp/B0DEORG001"><h2 aria-label="Anker Powerbank 10000mAh, 22,5W" class="a-size-medium a-spacing-none a-color-base a-text-normal"><span>Anker Powerbank 10000mAh, 22,5W</span></h2></a>
+          </div>
+          <div data-cy="reviews-block" class="a-section a-spacing-none a-spacing-top-micro">
+            <div class="a-row a-size-small">
+              <span class="a-declarative" data-action="a-popover">
+                <a aria-label="4,6 von 5 Sternen, Bewertungsdetails" href="javascript:void(0)" role="button" class="a-popover-trigger a-declarative">
+                  <span aria-hidden="true" class="a-size-small a-color-base">4,6</span>
+                  <i aria-hidden="true" class="a-icon a-icon-star-small a-star-small-4-5"><span class="a-icon-alt">4,6 von 5 Sternen</span></i>
+                </a>
+              </span>
+              <span data-component-type="s-client-side-analytics" class="rush-component">
+                <div style="display: inline-block"><a aria-label="1.234 Bewertungen" class="a-link-normal s-underline-text s-underline-link-text s-link-style" href="/product-reviews/B0DEORG001"><span aria-hidden="true" class="a-size-base s-underline-text">1.234</span></a></div>
+              </span>
+            </div>
+            <div class="a-row a-size-base"><span class="a-size-base a-color-secondary">Mehr als 1.000 Mal im letzten Monat gekauft</span></div>
+          </div>
+          <div data-cy="price-recipe" class="a-section a-spacing-none a-spacing-top-small s-price-instructions-style">
+            <a class="a-link-normal s-no-hover s-underline-text s-underline-link-text s-link-style a-text-normal" href="/dp/B0DEORG001">
+              <span class="a-price" data-a-size="xl" data-a-color="base"><span class="a-offscreen">29,99&nbsp;€</span><span aria-hidden="true"><span class="a-price-whole">29<span class="a-price-decimal">,</span></span><span class="a-price-fraction">99</span><span class="a-price-symbol">€</span></span></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-asin="B0DESPN002" data-index="2" data-component-type="s-search-result" class="s-result-item s-asin AdHolder sg-col-0-of-12 sg-col-16-of-20 sg-col s-widget-spacing-small sg-col-12-of-16">
+  <div class="sg-col-inner">
+    <div class="puis-card-container s-card-container s-overflow-hidden aok-relative puis-expand-height puis-include-content-margin puis puis-card-border">
+      <div class="a-section">
+        <div class="puis-list-col-right">
+          <div class="a-row a-spacing-micro">
+            <span class="a-declarative" data-action="a-popover">
+              <a href="javascript:void(0)" role="button" class="puis-label-popover puis-sponsored-label-text">
+                <span class="puis-label-popover-default"><span aria-label="Gesponserte Informationen anzeigen oder Feedback zur Anzeige hinterlassen" class="a-color-secondary">Gesponsert</span></span>
+              </a>
+            </span>
+          </div>
+          <div data-cy="title-recipe" class="a-section a-spacing-none puis-padding-right-small s-title-instructions-style">
+            <a class="a-link-normal s-line-clamp-2 s-link-style a-text-normal" href="/sspa/click?url=%2Fdp%2FB0DESPN002"><h2 class="a-size-medium a-spacing-none a-color-base a-text-normal"><span>EcoFlow RIVER 2 Pro Tragbare Powerstation 768Wh</span></h2></a>
+          </div>
+          <div data-cy="reviews-block" class="a-section a-spacing-none a-spacing-top-micro">
+            <div class="a-row a-size-small">
+              <span class="a-declarative" data-action="a-popover">
+                <a aria-label="4,7 von 5 Sternen, Bewertungsdetails" href="javascript:void(0)" role="button" class="a-popover-trigger a-declarative">
+                  <span aria-hidden="true" class="a-size-small a-color-base">4,7</span>
+                  <i aria-hidden="true" class="a-icon a-icon-star-small a-star-small-4-5"><span class="a-icon-alt">4,7 von 5 Sternen</span></i>
+                </a>
+              </span>
+              <span data-component-type="s-client-side-analytics" class="rush-component">
+                <div style="display: inline-block"><a aria-label="12.345 Bewertungen" class="a-link-normal s-underline-text s-underline-link-text s-link-style" href="/sspa/click?url=%2Fproduct-reviews%2FB0DESPN002"><span aria-hidden="true" class="a-size-base s-underline-text">(12.345)</span></a></div>
+              </span>
+            </div>
+          </div>
+          <div data-cy="price-recipe" class="a-section a-spacing-none a-spacing-top-small s-price-instructions-style">
+            <a class="a-link-normal s-no-hover s-underline-text s-underline-link-text s-link-style a-text-normal" href="/sspa/click?url=%2Fdp%2FB0DESPN002">
+              <span class="a-price" data-a-size="xl" data-a-color="base"><span class="a-offscreen">1.299,00&nbsp;€</span><span aria-hidden="true"><span class="a-price-whole">1.299<span class="a-price-decimal">,</span></span><span class="a-price-fraction">00</span><span class="a-price-symbol">€</span></span></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-asin="B0DENOAL03" data-index="3" data-component-type="s-search-result" class="s-result-item s-asin sg-col-0-of-12 sg-col-16-of-20 sg-col s-widget-spacing-small sg-col-12-of-16">
+  <div class="sg-col-inner">
+    <div class="puis-card-container s-card-container s-overflow-hidden aok-relative puis-include-content-margin puis puis-card-border">
+      <div class="a-section">
+        <div class="puis-list-col-right">
+          <div data-cy="title-recipe" class="a-section a-spacing-none puis-padding-right-small s-title-instructions-style">
+            <a class="a-link-normal s-line-clamp-2 s-link-style a-text-normal" href="/dp/B0DENOAL03"><h2 class="a-size-medium a-spacing-none a-color-base a-text-normal"><span>Baseus Magnetische Powerbank 6000mAh</span></h2></a>
+          </div>
+          <div class="a-row a-size-small">
+            <i class="a-icon a-icon-star-small a-star-small-4" aria-label="4,1 von 5 Sternen"></i>
+            <a class="a-link-normal s-underline-text s-underline-link-text s-link-style" href="/product-reviews/B0DENOAL03"><span class="a-size-base s-underline-text">87</span></a>
+          </div>
+          <div class="a-row a-size-base a-color-secondary"><span class="a-color-price">Derzeit nicht verfügbar.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

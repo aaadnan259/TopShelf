@@ -9,6 +9,8 @@ extension; load it unpacked at chrome://extensions.
 - Run tests: `node tests/run.js` — the only test command. Loads
   src/scorer.js into a vm sandbox (no window/document/chrome exist there,
   which also enforces the scorer's purity) and checks tests/fixtures.js.
+  Also runs src/scraper.js over saved search pages in tests/pages/ via a
+  tiny built-in DOM (tests/dom.js); expectations in tests/scraper-pages.js.
 - Render icons: `node scripts/render-icons.mjs` (needs sharp/ImageMagick/
   Inkscape/librsvg). PNGs are committed but can be regenerated.
 - Manual verification: reload the extension, reload an Amazon search.

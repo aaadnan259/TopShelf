@@ -187,5 +187,156 @@ try {
   fail("scraper.js sandbox load", e && e.message ? e.message : String(e));
 }
 
+// ---- Scraper page tests ----
+// Runs TopShelfScrape over saved Amazon search pages (tests/pages/) using a
+// minimal DOM (tests/dom.js), then feeds the result through the scorer.
+var dom = require("./dom.js");
+var PAGES = require("./scraper-pages.js");
+
+console.log("\nTopShelf scraper page tests\n");
+
+(function () {
+  var Scrape = parseSandbox.TopShelfScrape;
+  var SEL = parseSandbox.TopShelfSelectors;
+  if (typeof Scrape !== "function" || !SEL) {
+    fail("scraper pages", "TopShelfScrape/TopShelfSelectors not exposed by scraper.js");
+    return;
+  }
+
+  // The scraper's results are only as good as the DOM underneath it, so
+  // check the selector engine against a known tree first.
+  var probe = dom.parseHTML(
+    '<div id="r" class="a b" data-asin="X1"><p><span class="c">1</span></p>' +
+      '<span class="c d">2</span><em data-asin="">3</em><i class="a-icon-star-mini">4</i></div>'
+  );
+  var DOM_CASES = [
+    ["div.a.b", 1],
+    [".a .c", 2],
+    ["div > .c", 1],
+    ["p + span", 1],
+    ["p ~ em", 1],
+    ["[data-asin]:not([data-asin=\"\"])", 1],
+    ["[class*='a-icon-star']", 1],
+    ["#r span, em", 3],
+    ["span .c", 0]
+  ];
+  DOM_CASES.forEach(function (c) {
+    var n = probe.querySelectorAll(c[0]).length;
+    var label = "tests/dom.js: " + c[0] + " matches " + c[1];
+    if (n === c[1]) {
+      passed++;
+      console.log("  PASS [" + label + "]");
+    } else {
+      fail(label, "got " + n);
+    }
+  });
+
+  // scraper.js wraps every query in try/catch, so a selector our DOM can't
+  // parse would silently match nothing. Prove they all parse first.
+  var selOk = true;
+  Object.keys(SEL).forEach(function (k) {
+    try {
+      dom.parseSelectorList(SEL[k]);
+    } catch (e) {
+      fail("SELECTORS." + k + " parses in tests/dom.js", e.message);
+      selOk = false;
+    }
+  });
+  if (selOk) {
+    passed++;
+    console.log("  PASS [every SELECTORS entry is understood by tests/dom.js]");
+  }
+
+  function same(a, b) {
+    return a === b || (typeof a === "number" && typeof b === "number" && Math.abs(a - b) < 1e-9);
+  }
+
+  PAGES.forEach(function (pg) {
+    var doc = dom.parseHTML(fs.readFileSync(path.join(__dirname, "pages", pg.file), "utf8"));
+    var container = doc.querySelector(SEL.container);
+    if (!container) {
+      fail(pg.file, "no " + SEL.container + " container found");
+      return;
+    }
+
+    var tiles;
+    try {
+      tiles = Scrape(container);
+    } catch (e) {
+      fail(pg.file, "TopShelfScrape threw: " + (e && e.message ? e.message : e));
+      return;
+    }
+    var byAsin = {};
+    tiles.forEach(function (t) {
+      byAsin[t.asin] = t;
+    });
+
+    // Exactly the product cards: no nested add-to-cart bars, no carousel
+    // cards, no data-asin="" rows (the a604d00 tile-extraction bug).
+    var got = tiles.map(function (t) {
+      return t.asin;
+    });
+    var name = pg.file + ": scrapes exactly " + pg.asins.length + " product tiles";
+    if (JSON.stringify(got) === JSON.stringify(pg.asins)) {
+      passed++;
+      console.log("  PASS [" + name + "]");
+    } else {
+      fail(name, "got " + JSON.stringify(got));
+    }
+
+    // Rank badges are appended to tile.el, so it must be the outer card --
+    // never an element nested inside another scraped tile.
+    var anchorsOk = true;
+    tiles.forEach(function (t) {
+      if (t.el.getAttribute("data-component-type") !== "s-search-result") {
+        fail(pg.file + " " + t.asin, "tile.el is not the outer s-search-result card");
+        anchorsOk = false;
+      }
+      tiles.forEach(function (o) {
+        if (o !== t && o.el.parentElement && o.el.parentElement.closest("[data-asin]") === t.el) {
+          fail(pg.file + " " + o.asin, "tile.el is nested inside " + t.asin);
+          anchorsOk = false;
+        }
+      });
+    });
+    if (anchorsOk) {
+      passed++;
+      console.log("  PASS [" + pg.file + ": every tile.el is a top-level product card]");
+    }
+
+    Object.keys(pg.tiles).forEach(function (asin) {
+      var want = pg.tiles[asin];
+      var t = byAsin[asin];
+      if (!t) return; // already reported by the asins check
+      Object.keys(want).forEach(function (field) {
+        var label = pg.file + " " + asin + "." + field + " = " + JSON.stringify(want[field]);
+        var ok =
+          field === "title"
+            ? typeof t.title === "string" && t.title.indexOf(want.title) !== -1
+            : same(t[field], want[field]);
+        if (ok) {
+          passed++;
+          console.log("  PASS [" + label + "]");
+        } else {
+          fail(label, "got " + JSON.stringify(t[field]));
+        }
+      });
+    });
+
+    // End to end: real scraped data must score without throwing or NaN.
+    var label = pg.file + ": scraped tiles score without NaN";
+    try {
+      var results = TopShelfScore(tiles, { mode: "value", floor: "standard", sponsored: "demote" });
+      if (hasNaNScore(results)) fail(label, "NaN score");
+      else {
+        passed++;
+        console.log("  PASS [" + label + "]");
+      }
+    } catch (e) {
+      fail(label, "threw: " + (e && e.message ? e.message : e));
+    }
+  });
+})();
+
 console.log("\n" + passed + " passed, " + failed + " failed.");
 process.exit(failed === 0 ? 0 : 1);
