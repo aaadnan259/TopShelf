@@ -3,15 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>TopShelf — Amazon, best first.</title>
+    <title>TopShelf: Amazon search, best first</title>
     <meta
       name="description"
-      content="TopShelf re-ranks Amazon search results by statistically honest quality. Empirical Bayesian confidence, zero accounts, zero tracking, 100% on-device."
+      content="A Chrome extension that re-sorts Amazon search results by confidence-weighted rating, using only what is on the page. No network requests, no account."
     />
     <link rel="icon" type="image/svg+xml" href="../../icons/icon.svg" />
     <style>
       /* ===================================================================
-         DESIGN SYSTEM & DESIGN TOKENS (Knockoff / Modern Product Style)
+         DESIGN TOKENS
          =================================================================== */
       :root {
         /* Base palette */
@@ -106,7 +106,7 @@
         padding: 0 var(--px);
       }
 
-      /* Subtle dot grid pattern (Knockoff signature background) */
+      /* Subtle dot grid pattern */
       .dot-grid-bg {
         position: absolute;
         inset: 0;
@@ -263,7 +263,7 @@
       }
 
       /* ===================================================================
-         HERO SECTION (2-Column Knockoff Layout)
+         HERO SECTION
          =================================================================== */
       .hero-section {
         position: relative;
@@ -283,21 +283,6 @@
         flex-direction: column;
         align-items: flex-start;
       }
-      .hero-kicker-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 12px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-        color: var(--gold-dark);
-        background: var(--gold-light);
-        padding: 6px 14px;
-        border-radius: var(--r-full);
-        margin-bottom: 24px;
-        border: 1px solid rgba(245, 158, 11, 0.25);
-      }
       .hero-title {
         font-size: clamp(38px, 4.8vw, 58px);
         font-weight: 800;
@@ -308,12 +293,6 @@
       }
       .hero-title span.highlight {
         background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-      .hero-title span.crown-text {
-        color: var(--gold-dark);
-        background: linear-gradient(135deg, #b45309 0%, #f59e0b 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
@@ -389,7 +368,7 @@
         flex-shrink: 0;
       }
 
-      /* Founder / Manifesto Card (inspired by Josh on Knockoff) */
+      /* Hero note card */
       .hero-founder-card {
         display: flex;
         align-items: center;
@@ -469,18 +448,6 @@
       .mockup-search-pill svg.search-icon {
         color: #64748b;
         margin-left: auto;
-      }
-      .mockup-chip-tag {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        background: rgba(245, 158, 11, 0.2);
-        border: 1px solid rgba(245, 158, 11, 0.4);
-        color: #fcd34d;
-        font-size: 11px;
-        font-weight: 700;
-        padding: 3px 8px;
-        border-radius: var(--r-full);
       }
 
       /* Floating TopShelf Control Pill in Mockup */
@@ -695,109 +662,8 @@
         border: 1px solid #fecaca;
       }
 
-      /* Floating Decorative Card overlay (Knockoff signature visual layering) */
-      .floating-proof-card {
-        position: absolute;
-        bottom: -24px;
-        right: -18px;
-        background: #ffffff;
-        border: 1px solid var(--card-border);
-        border-radius: var(--r-lg);
-        padding: 12px 16px;
-        box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        z-index: 10;
-        animation: floatBob 4s ease-in-out infinite alternate;
-      }
-      @keyframes floatBob {
-        from { transform: translateY(0); }
-        to { transform: translateY(-6px); }
-      }
-      .proof-icon-box {
-        width: 36px;
-        height: 36px;
-        border-radius: var(--r-sm);
-        background: var(--gold-light);
-        color: var(--gold-dark);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-      }
-      .proof-title {
-        font-size: 12.5px;
-        font-weight: 700;
-        color: var(--foreground);
-      }
-      .proof-subtitle {
-        font-size: 11px;
-        color: var(--foreground-muted);
-      }
-
       /* ===================================================================
-         LOGOS & MARKETPLACES SUPPORTED BAR (Knockoff Style)
-         =================================================================== */
-      .marketplaces-section {
-        background: var(--bg-subtle);
-        border-top: 1px solid var(--card-border);
-        border-bottom: 1px solid var(--card-border);
-        padding: 48px 0;
-      }
-      .marketplaces-grid {
-        display: grid;
-        grid-template-columns: 1fr auto 1.2fr;
-        gap: 32px;
-        align-items: center;
-      }
-      .marketplaces-left h4 {
-        font-size: 12px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-        color: var(--foreground-muted);
-        margin-bottom: 12px;
-      }
-      .marketplaces-left p {
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--foreground);
-        line-height: 1.4;
-      }
-      .marketplaces-divider {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 48px;
-        height: 48px;
-        border-radius: var(--r-full);
-        background: #ffffff;
-        border: 1px solid var(--card-border);
-        box-shadow: var(--shadow-sm);
-        color: var(--gold);
-      }
-      .marketplaces-flags {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-      .flag-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: #ffffff;
-        border: 1px solid var(--card-border);
-        padding: 6px 12px;
-        border-radius: var(--r-full);
-        font-size: 12.5px;
-        font-weight: 600;
-        color: var(--foreground);
-      }
-
-      /* ===================================================================
-         INTERACTIVE BEFORE & AFTER COMPARISON (Knockoff Style)
+         BEFORE / AFTER GRID (used inside the demo)
          =================================================================== */
       .demo-section {
         padding: 96px 0;
@@ -807,15 +673,6 @@
         text-align: center;
         max-width: 680px;
         margin: 0 auto 52px;
-      }
-      .section-kicker {
-        display: inline-block;
-        font-size: 12px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-        color: var(--gold-dark);
-        margin-bottom: 12px;
       }
       .section-heading {
         font-size: clamp(30px, 4vw, 42px);
@@ -959,74 +816,6 @@
       .compare-verdict-box.bad {
         background: var(--red-light);
         color: #b91c1c;
-      }
-
-      /* ===================================================================
-         HOW IT WORKS — 3-STEP CARDS (Knockoff Style)
-         =================================================================== */
-      .steps-section {
-        padding: 96px 0;
-        background: var(--bg-subtle);
-        border-top: 1px solid var(--card-border);
-      }
-      .steps-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 24px;
-        position: relative;
-      }
-      .step-item-card {
-        background: #ffffff;
-        border: 1px solid var(--card-border);
-        border-radius: var(--r-xl);
-        padding: 32px 28px;
-        position: relative;
-        transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-        box-shadow: var(--shadow-sm);
-      }
-      .step-item-card:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow-card-hover);
-        border-color: var(--card-border-hover);
-      }
-      .step-number-tag {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 38px;
-        height: 38px;
-        border-radius: var(--r-md);
-        background: var(--navy);
-        color: #fcd34d;
-        font-size: 15px;
-        font-weight: 800;
-        margin-bottom: 20px;
-      }
-      .step-icon-right {
-        position: absolute;
-        top: 28px;
-        right: 24px;
-        width: 40px;
-        height: 40px;
-        border-radius: var(--r-md);
-        background: var(--bg-subtle);
-        border: 1px solid var(--card-border);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--foreground-muted);
-      }
-      .step-item-card h3 {
-        font-size: 19px;
-        font-weight: 700;
-        letter-spacing: -0.01em;
-        color: var(--foreground);
-        margin-bottom: 10px;
-      }
-      .step-item-card p {
-        font-size: 14.5px;
-        line-height: 1.6;
-        color: var(--foreground-muted);
       }
 
       /* ===================================================================
@@ -1201,67 +990,7 @@
       }
 
       /* ===================================================================
-         BENTO GRID / FEATURES SECTION (Knockoff Bento Aesthetic)
-         =================================================================== */
-      .features-section {
-        padding: 96px 0;
-        background: var(--bg-contrast);
-        color: #ffffff;
-        position: relative;
-        overflow: hidden;
-      }
-      .features-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-        margin-top: 56px;
-      }
-      .bento-card {
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: var(--r-xl);
-        padding: 32px 26px;
-        transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-      .bento-card:hover {
-        transform: translateY(-4px);
-        background: rgba(255, 255, 255, 0.06);
-        border-color: rgba(255, 255, 255, 0.14);
-      }
-      .bento-icon-box {
-        width: 44px;
-        height: 44px;
-        border-radius: var(--r-md);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 20px;
-      }
-      .bento-icon-box.gold { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
-      .bento-icon-box.emerald { background: rgba(16, 185, 129, 0.15); color: #10b981; }
-      .bento-icon-box.sky { background: rgba(2, 132, 199, 0.15); color: #38bdf8; }
-      .bento-icon-box.amber { background: rgba(217, 119, 6, 0.15); color: #fbbf24; }
-      .bento-icon-box.red { background: rgba(239, 68, 68, 0.15); color: #f87171; }
-      .bento-icon-box.purple { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
-
-      .bento-card h3 {
-        font-size: 18px;
-        font-weight: 700;
-        letter-spacing: -0.01em;
-        margin-bottom: 8px;
-        color: #ffffff;
-      }
-      .bento-card p {
-        font-size: 14px;
-        line-height: 1.6;
-        color: rgba(255, 255, 255, 0.65);
-      }
-
-      /* ===================================================================
-         FAQ SECTION (Knockoff Accordion Details)
+         FAQ SECTION
          =================================================================== */
       .faq-section {
         padding: 96px 0;
@@ -1309,82 +1038,6 @@
         font-size: 14.5px;
         line-height: 1.65;
         color: var(--foreground-muted);
-      }
-
-      /* ===================================================================
-         CLOSING CTA BANNER (High-Converting Dark Card)
-         =================================================================== */
-      .cta-section {
-        padding: 80px 0 96px;
-        background: var(--bg);
-      }
-      .cta-dark-card {
-        background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
-        border-radius: var(--r-xl);
-        padding: 64px 36px;
-        text-align: center;
-        color: #ffffff;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 20px 48px -8px rgba(15, 23, 42, 0.25);
-      }
-      .cta-dark-card .hero-kicker-pill {
-        background: rgba(245, 158, 11, 0.15);
-        color: #fcd34d;
-        border-color: rgba(245, 158, 11, 0.3);
-      }
-      .cta-dark-card h2 {
-        font-size: clamp(32px, 4.5vw, 48px);
-        font-weight: 850;
-        letter-spacing: -0.03em;
-        margin-bottom: 16px;
-      }
-      .cta-dark-card p {
-        font-size: 18px;
-        color: rgba(255, 255, 255, 0.7);
-        max-width: 580px;
-        margin: 0 auto 36px;
-      }
-      .cta-btns-row {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 14px;
-        flex-wrap: wrap;
-      }
-      .btn-cta-gold {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        background: var(--gold);
-        color: #0f172a;
-        font-size: 15.5px;
-        font-weight: 750;
-        padding: 13px 28px;
-        border-radius: var(--r-md);
-        box-shadow: 0 4px 18px rgba(245, 158, 11, 0.3);
-        transition: transform 0.15s, opacity 0.15s, box-shadow 0.15s;
-      }
-      .btn-cta-gold:hover {
-        transform: translateY(-2px);
-        opacity: 0.95;
-        box-shadow: 0 6px 24px rgba(245, 158, 11, 0.4);
-      }
-      .btn-cta-ghost {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: rgba(255, 255, 255, 0.08);
-        color: #ffffff;
-        font-size: 15px;
-        font-weight: 600;
-        padding: 12px 22px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: var(--r-md);
-        transition: background 0.15s;
-      }
-      .btn-cta-ghost:hover {
-        background: rgba(255, 255, 255, 0.14);
       }
 
       /* ===================================================================
@@ -1460,6 +1113,97 @@
       }
 
       /* ===================================================================
+         DEMO + HOW IT RANKS additions
+         =================================================================== */
+      .hero-locales {
+        margin-top: 20px;
+        font-size: 13px;
+        color: var(--foreground-subtle);
+        line-height: 1.5;
+      }
+      .calculator-section .interactive-compare-box { margin-top: 28px; }
+      .calc-select-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--foreground);
+      }
+      .calc-select {
+        font: inherit;
+        font-weight: 500;
+        padding: 5px 8px;
+        border: 1px solid var(--card-border);
+        border-radius: var(--r-sm);
+        background: #ffffff;
+        color: var(--foreground);
+      }
+      .reasons-list {
+        list-style: none;
+        margin: 8px 0 0;
+        padding: 0;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 13px;
+        color: var(--foreground);
+      }
+      .reasons-list li { padding: 4px 0; border-bottom: 1px dashed var(--card-border); }
+      .reasons-list li:last-child { border-bottom: 0; }
+      .compare-card.yours { border-color: var(--foreground); border-width: 2px; }
+      .compare-card.is-hidden { opacity: 0.5; }
+      .compare-sponsored {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--foreground-muted);
+      }
+      .compare-moved { font-size: 11px; color: var(--foreground-subtle); }
+      .compare-verdict-box {
+        background: var(--bg-muted);
+        color: var(--foreground);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-weight: 500;
+      }
+      .demo-fallback { text-align: center; color: var(--foreground-muted); }
+      .how-section {
+        padding: 96px 0;
+        background: var(--bg-subtle);
+        border-top: 1px solid var(--card-border);
+      }
+      .how-wrap { max-width: 760px; }
+      .how-list {
+        margin: 28px 0 0;
+        padding-left: 1.4em;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        font-size: 16px;
+        line-height: 1.65;
+        color: var(--foreground-muted);
+      }
+      .how-list strong { display: block; color: var(--foreground); }
+      .how-list code, .how-note code, .section-lead code, .faq-answer code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.9em;
+        background: var(--bg-muted);
+        padding: 1px 5px;
+        border-radius: 4px;
+      }
+      .how-note { margin-top: 24px; font-size: 14px; color: var(--foreground-muted); }
+      .how-note a, .faq-answer a { color: var(--gold-dark); text-decoration: underline; }
+      .footer-row {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 0;
+        margin: 0;
+        font-size: 14px;
+      }
+      .footer-row a { color: var(--foreground-muted); }
+      .footer-row a:hover { color: var(--foreground); }
+
+      /* ===================================================================
          RESPONSIVE BREAKPOINTS
          =================================================================== */
       @media (max-width: 960px) {
@@ -1467,23 +1211,10 @@
           grid-template-columns: 1fr;
           gap: 40px;
         }
-        .marketplaces-grid {
-          grid-template-columns: 1fr;
-          gap: 20px;
-          text-align: center;
-        }
-        .marketplaces-divider { margin: 0 auto; }
-        .marketplaces-flags { justify-content: center; }
         .compare-tiles-grid {
           grid-template-columns: repeat(2, 1fr);
         }
-        .steps-grid {
-          grid-template-columns: 1fr;
-        }
         .calculator-box {
-          grid-template-columns: 1fr;
-        }
-        .features-grid {
           grid-template-columns: 1fr;
         }
       }
@@ -1492,7 +1223,6 @@
         .nav-links { display: none; }
         .nav-mobile-details { display: block; }
         .compare-tiles-grid { grid-template-columns: 1fr; }
-        .floating-proof-card { display: none; }
         .hero-title { font-size: 34px; }
       }
     </style>
@@ -1507,7 +1237,6 @@
     <div class="navbar-wrapper wrap">
       <nav class="navbar-pill" aria-label="Primary">
         <a class="nav-brand" href="/">
-          <!-- Trophy Crown Tag Logo -->
           <svg class="nav-brand-logo" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="128" height="128" rx="28" fill="#131921"/>
             <path d="M 34 82 L 30 42 L 49 60 L 64 28 L 79 60 L 98 42 L 94 82 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
@@ -1515,40 +1244,29 @@
             <path d="M 54 96.5 C 57 100.5, 71 100.5, 74 96.5" fill="none" stroke="#131921" stroke-width="3.5" stroke-linecap="round"/>
           </svg>
           TopShelf
-          <span class="nav-badge-version">v2.0</span>
         </a>
 
         <div class="nav-links">
-          <a class="nav-link" href="#comparison">Comparison</a>
-          <a class="nav-link" href="#how-it-works">How it works</a>
-          <a class="nav-link" href="#calculator">Live Scorer</a>
-          <a class="nav-link" href="#features">Features</a>
+          <a class="nav-link" href="#demo">Try it</a>
+          <a class="nav-link" href="#how-it-ranks">How it ranks</a>
           <a class="nav-link" href="#faq">FAQ</a>
+          <a class="nav-link" href="https://github.com/aaadnan259/TopShelf" target="_blank" rel="noopener">GitHub</a>
         </div>
 
         <div class="nav-actions">
-          <a class="btn-nav-cta" href="https://chromewebstore.google.com/" target="_blank" rel="noopener">
-            <!-- Chrome Web Store Icon -->
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <circle cx="12" cy="12" r="4"/>
-              <line x1="21.17" y1="8" x2="12" y2="8"/>
-              <line x1="3.95" y1="6.06" x2="8.54" y2="14"/>
-              <line x1="10.88" y1="21.94" x2="15.46" y2="14"/>
-            </svg>
-            Add to Chrome
+          <!-- Not on the Chrome Web Store yet: install is load-unpacked from the repo. -->
+          <a class="btn-nav-cta" href="https://github.com/aaadnan259/TopShelf#install" target="_blank" rel="noopener">
+            Install
           </a>
 
           <!-- Mobile dropdown menu -->
           <details class="nav-mobile-details">
             <summary class="nav-mobile-summary">Menu</summary>
             <div class="nav-mobile-menu">
-              <a href="#comparison">Comparison</a>
-              <a href="#how-it-works">How it works</a>
-              <a href="#calculator">Live Scorer</a>
-              <a href="#features">Features</a>
+              <a href="#demo">Try it</a>
+              <a href="#how-it-ranks">How it ranks</a>
               <a href="#faq">FAQ</a>
-              <a href="https://github.com/TopShelf" target="_blank" rel="noopener">GitHub</a>
+              <a href="https://github.com/aaadnan259/TopShelf" target="_blank" rel="noopener">GitHub</a>
             </div>
           </details>
         </div>
@@ -1562,57 +1280,41 @@
       <div class="wrap hero-grid">
         <!-- Left Hero Content -->
         <div class="hero-left">
-          <div class="hero-kicker-pill">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-            Honest Amazon Shopping
-          </div>
-
           <h1 class="hero-title">
-            Find the <span class="crown-text">best products</span> before the algorithm buries&nbsp;them.
+            Amazon search, sorted by what buyers actually&nbsp;think.
           </h1>
 
           <p class="hero-lead">
-            Amazon sorts by who pays for sponsored ad spots and who farms fast 5-star reviews. TopShelf runs an empirical Bayesian engine right in your browser to bring genuine quality to the top shelf.
+            A 5-star listing with 14 reviews shouldn't outrank a 4.8 with 24,000. TopShelf re-sorts the results page you're already looking at, using only what's on it. Nothing leaves your browser.
           </p>
 
           <div class="hero-cta-group">
-            <a class="btn-hero-primary" href="https://chromewebstore.google.com/" target="_blank" rel="noopener">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/>
-                <line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/>
-              </svg>
-              Add to Chrome — It's Free
+            <a class="btn-hero-primary" href="https://github.com/aaadnan259/TopShelf#install" target="_blank" rel="noopener">
+              Install from GitHub
             </a>
 
-            <a class="btn-hero-secondary" href="#calculator">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="4" y="2" width="16" height="20" rx="2"/>
-                <line x1="8" y1="6" x2="16" y2="6"/>
-                <line x1="16" y1="14" x2="16" y2="18"/>
-                <path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/>
-              </svg>
-              Try Scorer Demo
+            <a class="btn-hero-secondary" href="#demo">
+              Try it on a sample page
             </a>
           </div>
 
           <div class="hero-trust-bar">
             <div class="trust-item">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              100% On-Device
+              No network requests
             </div>
             <div class="trust-item">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              Zero Network Calls
+              No account
             </div>
             <div class="trust-item">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              No Accounts Required
+              Open source, MIT
             </div>
           </div>
 
-          <!-- Founder / Open-Source manifesto card -->
+          <!-- The tuning rule from CLAUDE.md, stated plainly: it is more
+               convincing than any feature claim. -->
           <div class="hero-founder-card">
             <div class="founder-avatar">
               <svg width="22" height="22" viewBox="0 0 128 128" fill="none">
@@ -1621,12 +1323,16 @@
               </svg>
             </div>
             <p class="founder-text">
-              <strong>Tired of 5-star ratings on cheap plastic junk?</strong> TopShelf brings 2012 back to Amazon — where products win on verified merit, not ad spend.
+              <strong>The one rule it's tuned around:</strong> burying a good product is worse than letting a mediocre one rank a little high. So TopShelf demotes on soft signals and only hides what's clearly below the rest of the page.
             </p>
           </div>
+
+          <p class="hero-locales">
+            Works on Amazon search in 14 stores: .com, .co.uk, .de, .fr, .it, .es, .ca, .com.mx, .com.au, .co.jp, .in, .nl, .se and .com.br.
+          </p>
         </div>
 
-        <!-- Right Hero Visual: Realistic Amazon Search Product Mockup -->
+        <!-- Right: mock Amazon results with TopShelf applied -->
         <div class="hero-visual-container">
           <div class="amazon-mockup-frame">
             <!-- Mock Amazon Header -->
@@ -1637,19 +1343,13 @@
                   <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                 </svg>
               </div>
-              <div class="mockup-chip-tag">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                </svg>
-                TopShelf Active
-              </div>
             </div>
 
             <!-- TopShelf In-Page Controller Pill -->
             <div class="mockup-topshelf-pill">
               <div class="topshelf-live-status">
                 <span class="pulse-dot"></span>
-                <span>36 scored on this page</span>
+                <span>4 ranked · Show 2 hidden</span>
               </div>
               <div class="segmented-mock-toggle">
                 <span class="inactive">Original</span>
@@ -1657,7 +1357,7 @@
               </div>
             </div>
 
-            <!-- Realistic Product Tiles (Pictures + Reason Cards) -->
+            <!-- Tiles show the badge and reasons[] text the extension actually renders -->
             <div class="mockup-product-stack">
               <!-- #1 Anker Prime 67W Charger -->
               <div class="mock-product-tile gold-highlight">
@@ -1665,7 +1365,7 @@
                   <svg width="12" height="12" viewBox="0 0 128 128" fill="none">
                     <path d="M 34 82 L 30 42 L 49 60 L 64 28 L 79 60 L 98 42 L 94 82 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="10"/>
                   </svg>
-                  #1 Top Pick
+                  #1
                 </span>
 
                 <div class="mock-tile-image-box">
@@ -1698,14 +1398,14 @@
                     </div>
                   </div>
                   <div class="mock-reason-pill positive">
-                    ★ 4.8 bayesian star quality (+38) · 24K verified volume (+22) · Score 94/100
+                    4.8★ × 24,180
                   </div>
                 </div>
               </div>
 
               <!-- #2 UGREEN Nexode 65W Charger -->
               <div class="mock-product-tile">
-                <span class="topshelf-rank-stamp navy">#2 Rank</span>
+                <span class="topshelf-rank-stamp navy">#2</span>
 
                 <div class="mock-tile-image-box">
                   <!-- Realistic UGREEN Charger Vector Illustration -->
@@ -1736,7 +1436,7 @@
                     </div>
                   </div>
                   <div class="mock-reason-pill positive">
-                    ★ 4.7 star confidence (+36) · High volume (+18) · Score 91/100
+                    4.7★ × 12,400
                   </div>
                 </div>
               </div>
@@ -1744,7 +1444,7 @@
               <!-- Demoted Sponsored Ad Tile -->
               <div class="mock-product-tile" style="opacity: 0.82; background: #fff8f8;">
                 <span class="topshelf-rank-stamp demoted">
-                  Demoted (-32 ranks)
+                  Was #1, now #4
                 </span>
 
                 <div class="mock-tile-image-box">
@@ -1760,7 +1460,7 @@
 
                 <div class="mock-tile-info">
                   <div>
-                    <h4 class="mock-product-title" style="color: #64748b;">SZHLUX 120W Ultra Rapid Fast Charger (Sponsored)</h4>
+                    <h4 class="mock-product-title" style="color: #64748b;">SZHLUX 120W Ultra Rapid Fast Charger</h4>
                     <div class="mock-ratings-row">
                       <span class="stars-gold">5.0 ★★★★★</span>
                       <span class="ratings-count" style="color: #ef4444; font-weight: 700;">(Only 14 reviews)</span>
@@ -1770,336 +1470,176 @@
                     </div>
                   </div>
                   <div class="mock-reason-pill warning">
-                    ⚠️ Sponsored rank penalty (-35) · Thin reviews (-20) · Demoted
+                    5★ × 14 · sponsored −15% · thin reviews −20%
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Floating Proof Pill (Knockoff visual detail) -->
-          <div class="floating-proof-card">
-            <div class="proof-icon-box">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              </svg>
-            </div>
-            <div>
-              <p class="proof-title">Zero API latency</p>
-              <p class="proof-subtitle">Sorted client-side in &lt; 4ms</p>
-            </div>
-          </div>
         </div>
       </div>
     </header>
 
     <!-- ===================================================================
-         MARKETPLACES & BROWSERS BAR
+         TRY IT: the real src/scorer.js, run on a sample results page
          =================================================================== -->
-    <section class="marketplaces-section">
-      <div class="wrap marketplaces-grid">
-        <div class="marketplaces-left">
-          <h4>Universal Compatibility</h4>
-          <p>Works across 23 Amazon locales worldwide in Grid &amp; List layouts</p>
-        </div>
-
-        <div class="marketplaces-divider">
-          <!-- Small Trophy Crown SVG -->
-          <svg width="22" height="22" viewBox="0 0 128 128" fill="none">
-            <path d="M 34 82 L 30 42 L 49 60 L 64 28 L 79 60 L 98 42 L 94 82 Z" fill="#F59E0B" stroke="#B45309" stroke-width="8"/>
-            <rect x="22" y="90" width="84" height="15" rx="7.5" fill="#FCD34D"/>
-          </svg>
-        </div>
-
-        <div class="marketplaces-flags">
-          <span class="flag-pill">🇺🇸 amazon.com</span>
-          <span class="flag-pill">🇬🇧 amazon.co.uk</span>
-          <span class="flag-pill">🇩🇪 amazon.de</span>
-          <span class="flag-pill">🇨🇦 amazon.ca</span>
-          <span class="flag-pill">🇯🇵 amazon.co.jp</span>
-          <span class="flag-pill">🇫🇷 amazon.fr</span>
-          <span class="flag-pill">+17 more</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================================================================
-         INTERACTIVE BEFORE & AFTER COMPARISON (Knockoff Style)
-         =================================================================== -->
-    <section class="demo-section" id="comparison">
+    <section class="calculator-section" id="demo">
       <div class="wrap">
         <div class="section-header-centered">
-          <span class="section-kicker">Side-By-Side Proof</span>
-          <h2 class="section-heading">The same products. An honest order.</h2>
-          <p class="section-lead">Toggle between Amazon's default sponsored order and TopShelf's Bayesian rank to see how quality rises to the top.</p>
-        </div>
-
-        <div class="interactive-compare-box">
-          <!-- Toggle Buttons -->
-          <div class="compare-toggle-bar">
-            <button class="btn-toggle-view inactive" id="btnShowAmazon" type="button" onclick="setCompareMode('amazon')">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
-              Amazon Default Sort
-            </button>
-            <button class="btn-toggle-view active" id="btnShowTopShelf" type="button" onclick="setCompareMode('topshelf')">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              TopShelf Re-Ranked
-            </button>
-          </div>
-
-          <!-- Compare Product Cards Grid -->
-          <div class="compare-tiles-grid" id="compareGrid">
-            <!-- Rendered dynamically by JavaScript below -->
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================================================================
-         HOW IT WORKS (3 Step Cards)
-         =================================================================== -->
-    <section class="steps-section" id="how-it-works">
-      <div class="wrap">
-        <div class="section-header-centered">
-          <span class="section-kicker">The Engine</span>
-          <h2 class="section-heading">Three steps. Zero network requests.</h2>
-          <p class="section-lead">Everything executes securely inside your browser tab without talking to external servers.</p>
-        </div>
-
-        <div class="steps-grid">
-          <div class="step-item-card">
-            <div class="step-number-tag">1</div>
-            <div class="step-icon-right">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-              </svg>
-            </div>
-            <h3>DOM Extraction</h3>
-            <p>Under 4ms. TopShelf scans the rendered search page for ratings, review volume, price, "bought in past month" badges, and sponsored ribbons. Zero external API calls.</p>
-          </div>
-
-          <div class="step-item-card">
-            <div class="step-number-tag">2</div>
-            <div class="step-icon-right">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
-              </svg>
-            </div>
-            <h3>Bayesian Scoring</h3>
-            <p>Laplace-smoothed confidence mathematics pulls thin-review products toward the category baseline until they earn statistical proof. Review farms lose their edge.</p>
-          </div>
-
-          <div class="step-item-card">
-            <div class="step-number-tag">3</div>
-            <div class="step-icon-right">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/>
-              </svg>
-            </div>
-            <h3>In-Place Reordering</h3>
-            <p>Re-slots items into true quality rank without page reloads. Prime badges, image carousels, customer reviews, and cart buttons stay 100% operational.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================================================================
-         INTERACTIVE LIVE SCORER CALCULATOR
-         =================================================================== */ -->
-    <section class="calculator-section" id="calculator">
-      <div class="wrap">
-        <div class="section-header-centered">
-          <span class="section-kicker">Interactive Playground</span>
-          <h2 class="section-heading">Test the Bayesian formula live.</h2>
-          <p class="section-lead">Adjust stars, review count, price, and penalties to see how TopShelf scores any product in real time.</p>
+          <h2 class="section-heading">Try it on a sample page.</h2>
+          <p class="section-lead">Six listings from a made-up search for USB-C chargers, scored by the same <code>scorer.js</code> the extension runs. Add a seventh and see where it lands.</p>
         </div>
 
         <div class="calculator-box">
-          <!-- Controls -->
           <div class="calc-controls">
-            <!-- Star Rating Slider -->
             <div class="calc-control-group">
               <div class="calc-label-row">
-                <span>Customer Star Rating</span>
-                <span class="calc-val-badge" id="calcRatingVal">4.8 ★</span>
+                <span>Star rating</span>
+                <span class="calc-val-badge" id="calcRatingVal">4.9 ★</span>
               </div>
-              <input class="calc-slider" id="calcRating" type="range" min="1.0" max="5.0" step="0.1" value="4.8" oninput="updateCalculator()"/>
+              <input class="calc-slider" id="calcRating" type="range" min="1.0" max="5.0" step="0.1" value="4.9" oninput="updateDemo()"/>
             </div>
 
-            <!-- Review Count Slider -->
             <div class="calc-control-group">
               <div class="calc-label-row">
-                <span>Verified Review Count</span>
-                <span class="calc-val-badge" id="calcReviewsVal">12,400</span>
+                <span>Number of ratings</span>
+                <span class="calc-val-badge" id="calcReviewsVal">38</span>
               </div>
-              <input class="calc-slider" id="calcReviews" type="range" min="1" max="50000" step="50" value="12400" oninput="updateCalculator()"/>
+              <!-- Log-scaled slider: 0..100 maps to 1..100,000 ratings, so
+                   the interesting range under 100 isn't a few pixels wide. -->
+              <input class="calc-slider" id="calcReviews" type="range" min="0" max="100" step="1" value="32" oninput="updateDemo()"/>
             </div>
 
-            <!-- Price Slider -->
             <div class="calc-control-group">
               <div class="calc-label-row">
-                <span>Price (USD)</span>
-                <span class="calc-val-badge" id="calcPriceVal">$29.99</span>
+                <span>Price</span>
+                <span class="calc-val-badge" id="calcPriceVal">$14.00</span>
               </div>
-              <input class="calc-slider" id="calcPrice" type="range" min="5" max="200" step="1" value="30" oninput="updateCalculator()"/>
+              <input class="calc-slider" id="calcPrice" type="range" min="5" max="120" step="1" value="14" oninput="updateDemo()"/>
             </div>
 
-            <!-- Toggles -->
             <div class="calc-toggles-row">
               <label class="calc-checkbox-label">
-                <input id="calcSponsored" type="checkbox" onchange="updateCalculator()"/>
-                Sponsored Ad Placement
+                <input id="calcSponsored" type="checkbox" onchange="updateDemo()"/>
+                Sponsored
               </label>
-
-              <label class="calc-checkbox-label">
-                <input id="calcKnockoff" type="checkbox" onchange="updateCalculator()"/>
-                Knockoff Flagged
+              <label class="calc-select-label">
+                Knockoff verdict
+                <select id="calcKo" class="calc-select" onchange="updateDemo()">
+                  <option value="">none</option>
+                  <option value="known">known</option>
+                  <option value="suspect">suspect</option>
+                  <option value="flagged">flagged</option>
+                </select>
               </label>
             </div>
 
-            <!-- Presets -->
+            <div class="calc-toggles-row">
+              <label class="calc-select-label">
+                Mode
+                <select id="calcMode" class="calc-select" onchange="updateDemo()">
+                  <option value="quality">Quality</option>
+                  <option value="value">Value</option>
+                </select>
+              </label>
+              <label class="calc-select-label">
+                Hide floor
+                <select id="calcFloor" class="calc-select" onchange="updateDemo()">
+                  <option value="off">Off</option>
+                  <option value="standard" selected>Standard</option>
+                  <option value="aggressive">Aggressive</option>
+                </select>
+              </label>
+            </div>
+
             <div class="calc-control-group">
-              <div class="calc-label-row"><span>Load Presets:</span></div>
+              <div class="calc-label-row"><span>Or start from</span></div>
               <div class="calc-presets-row">
-                <button class="btn-preset" type="button" onclick="loadCalcPreset(4.8, 24000, 39, false, false)">Battle-Tested Leader</button>
-                <button class="btn-preset" type="button" onclick="loadCalcPreset(5.0, 14, 12, true, false)">Review Farm Scam</button>
-                <button class="btn-preset" type="button" onclick="loadCalcPreset(4.6, 6800, 19, false, false)">Budget Gem</button>
-                <button class="btn-preset" type="button" onclick="loadCalcPreset(4.9, 32, 15, false, true)">Knockoff Brand</button>
+                <button class="btn-preset" type="button" onclick="loadPreset(4.9, 38, 14, false, '')">Few glowing reviews</button>
+                <button class="btn-preset" type="button" onclick="loadPreset(4.5, 3200, 19, false, '')">Solid and cheap</button>
+                <button class="btn-preset" type="button" onclick="loadPreset(4.8, 9000, 45, true, '')">Good but sponsored</button>
+                <button class="btn-preset" type="button" onclick="loadPreset(4.4, 600, 12, false, 'suspect')">Knockoff suspect</button>
               </div>
             </div>
           </div>
 
-          <!-- Score Card Output -->
-          <div class="calc-output-card" id="calcCard">
+          <div class="calc-output-card">
             <div>
               <div class="calc-output-top">
                 <div>
-                  <p class="calc-score-label">TopShelf Score</p>
-                  <p class="calc-score-big" id="calcFinalScore">92</p>
+                  <p class="calc-score-label">Your listing</p>
+                  <p class="calc-score-big" id="demoRank">#4</p>
                 </div>
-                <div class="calc-rank-stamp" id="calcBadgeStamp" style="background: var(--gold); color: #fff;">
-                  #1 Top Pick
-                </div>
+                <div class="calc-rank-stamp" id="demoStamp">of 7</div>
               </div>
 
               <div class="calc-metrics-list">
                 <div class="calc-metric-row">
-                  <span class="name">Confidence Weight</span>
-                  <span class="val" id="calcConfWeight">98.5% (High volume)</span>
+                  <span class="name">Page average rating</span>
+                  <span class="val" id="demoPrior">4.4 ★</span>
                 </div>
                 <div class="calc-metric-row">
-                  <span class="name">Star Quality Factor</span>
-                  <span class="val" id="calcQualityFactor">+38 pts</span>
+                  <span class="name">Its rating, after weighting by count</span>
+                  <span class="val" id="demoQuality">4.6 ★</span>
                 </div>
                 <div class="calc-metric-row">
-                  <span class="name">Value Ratio Bonus</span>
-                  <span class="val" id="calcValueBonus">+12 pts</span>
-                </div>
-                <div class="calc-metric-row">
-                  <span class="name">Penalties Applied</span>
-                  <span class="val" id="calcPenalties">0 pts</span>
+                  <span class="name">Sort score</span>
+                  <span class="val" id="demoScore">3.69</span>
                 </div>
               </div>
-            </div>
-
-            <div class="calc-reason-output" id="calcReasonBox" style="background: #ecfdf5; color: #047857;">
-              ★ 4.8 star quality (+38) · 12.4K verified volume (+22) · Strong confidence
+              <p class="calc-score-label">What the badge says</p>
+              <ul class="reasons-list" id="demoReasons"></ul>
             </div>
           </div>
+        </div>
+
+        <div class="interactive-compare-box">
+          <div class="compare-toggle-bar">
+            <button class="btn-toggle-view inactive" id="btnShowAmazon" type="button" onclick="setCompareMode('amazon')">
+              Amazon's order
+            </button>
+            <button class="btn-toggle-view active" id="btnShowTopShelf" type="button" onclick="setCompareMode('topshelf')">
+              TopShelf's order
+            </button>
+          </div>
+          <div class="compare-tiles-grid" id="compareGrid"></div>
+          <p class="demo-fallback" id="demoFallback" hidden>The demo needs <code>src/scorer.js</code>, which didn't load. Open this page from the repo checkout.</p>
         </div>
       </div>
     </section>
 
     <!-- ===================================================================
-         BENTO FEATURES (Knockoff Bento Grid)
+         HOW IT RANKS: the v1 spec in plain words, no step cards
          =================================================================== -->
-    <section class="features-section" id="features">
-      <div class="wrap">
-        <div class="section-header-centered">
-          <span class="section-kicker" style="color: #fcd34d;">Capabilities</span>
-          <h2 class="section-heading" style="color: #ffffff;">Built like high-grade software.</h2>
-          <p class="section-lead" style="color: rgba(255,255,255,0.7);">Six features engineered to make Amazon search actually serve you instead of advertisers.</p>
-        </div>
-
-        <div class="features-grid">
-          <!-- Card 1 -->
-          <div class="bento-card">
-            <div>
-              <div class="bento-icon-box gold">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                </svg>
-              </div>
-              <h3>Zero Network Calls</h3>
-              <p>TopShelf communicates with zero servers. No telemetry, no usage pings, no affiliate tracking. Open DevTools Network tab and verify for yourself.</p>
-            </div>
-          </div>
-
-          <!-- Card 2 -->
-          <div class="bento-card">
-            <div>
-              <div class="bento-icon-box emerald">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                </svg>
-              </div>
-              <h3>Empirical Bayesian Math</h3>
-              <p>A 5.0 rating on 12 reviews loses to a 4.7 on 20,000 reviews every time. Low volume is mathematically regressed toward the category mean.</p>
-            </div>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="bento-card">
-            <div>
-              <div class="bento-icon-box sky">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
-                </svg>
-              </div>
-              <h3>Sponsored Ad Demotion</h3>
-              <p>Items paying for top-row placement are stripped of artificial placement bonuses and scored strictly on their verified product specs.</p>
-            </div>
-          </div>
-
-          <!-- Card 4 -->
-          <div class="bento-card">
-            <div>
-              <div class="bento-icon-box amber">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                </svg>
-              </div>
-              <h3>Three Ranking Presets</h3>
-              <p>Choose Balanced, Pure Quality, or Value-Driven mode. Quality-per-dollar mode logarithmically scales satisfaction against price.</p>
-            </div>
-          </div>
-
-          <!-- Card 5 -->
-          <div class="bento-card">
-            <div>
-              <div class="bento-icon-box purple">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
-                </svg>
-              </div>
-              <h3>Explainable Score Badges</h3>
-              <p>Click any badge on Amazon to see the exact breakdown: confidence multiplier, star points, price bonus, and sponsored deductions.</p>
-            </div>
-          </div>
-
-          <!-- Card 6 -->
-          <div class="bento-card">
-            <div>
-              <div class="bento-icon-box red">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                </svg>
-              </div>
-              <h3>Pairs with Knockoff</h3>
-              <p>Fully compatible with Josh Pigford's Knockoff extension. Detects trademark-squatting brand verdicts and integrates them seamlessly.</p>
-            </div>
-          </div>
-        </div>
+    <section class="how-section" id="how-it-ranks">
+      <div class="wrap how-wrap">
+        <h2 class="section-heading">How it ranks.</h2>
+        <ol class="how-list">
+          <li>
+            <strong>It reads what's already on the page.</strong>
+            Rating, number of ratings, price, and the Sponsored label for each result. Nothing is fetched; the extension's only permission besides Amazon search pages is storage for your settings.
+          </li>
+          <li>
+            <strong>It discounts ratings that haven't been earned yet.</strong>
+            Each rating is blended with the page's average as if it had 50 extra average ratings:
+            <code>(50 × page average + rating × count) ÷ (50 + count)</code>.
+            A 5.0 with 14 ratings lands near the average. A 4.8 with 24,000 stays 4.8.
+          </li>
+          <li>
+            <strong>It demotes, rather than hides, on soft signals.</strong>
+            Sponsored listings lose 15%. A rating of 4.8 or higher on fewer than 100 ratings loses 20%, since that's what review farming looks like, but that alone never hides anything.
+          </li>
+          <li>
+            <strong>It hides only what's clearly worse.</strong>
+            On the default Standard setting, a listing is hidden if its weighted rating is more than 0.6 stars below the page average. Aggressive uses 0.3; Off hides nothing on rating.
+          </li>
+          <li>
+            <strong>It moves Amazon's own tiles.</strong>
+            Links and cart buttons work as before, the top three get a badge that explains itself when clicked, and a chip in the corner switches back to Amazon's order or shows what was hidden.
+          </li>
+        </ol>
+        <p class="how-note">Value mode divides the score by <code>log10(price + 10)</code>, so cheaper listings move up without a $9 one automatically winning. The full spec is in <a href="https://github.com/aaadnan259/TopShelf/blob/master/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md</a>.</p>
       </div>
     </section>
 
@@ -2109,97 +1649,59 @@
     <section class="faq-section" id="faq">
       <div class="wrap">
         <div class="section-header-centered">
-          <span class="section-kicker">FAQ</span>
-          <h2 class="section-heading">Frequently asked questions.</h2>
-          <p class="section-lead">Everything you need to know about how TopShelf works.</p>
+          <h2 class="section-heading">Questions.</h2>
         </div>
 
         <div class="faq-accordion-list">
           <details class="faq-item" open>
             <summary class="faq-question">
-              Does TopShelf collect or transmit my browsing data?
+              Does TopShelf send my browsing data anywhere?
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </summary>
             <div class="faq-answer">
-              No. TopShelf has zero backend servers, zero analytics scripts, and zero network tracking permissions in its manifest. All DOM extraction, Bayesian mathematics, and slot reordering occur 100% locally on your device.
+              No. There's no server and no analytics, and the code has no <code>fetch</code> or <code>XMLHttpRequest</code> anywhere. Its permissions are Amazon search pages and Chrome storage for your settings. You can watch the Network tab to check.
             </div>
           </details>
 
           <details class="faq-item">
             <summary class="faq-question">
-              How does the Bayesian confidence formula work?
+              Does it hide products?
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </summary>
             <div class="faq-answer">
-              TopShelf uses empirical Bayes with Laplace volume smoothing: items with few reviews have their effective score pulled toward the category average (typically 4.2 stars). As verified volume grows, the item's true rating takes over. A 5.0 with 14 reviews cannot fake confidence against a 4.7 with 20,000 reviews.
+              Some, by default. On the Standard setting, listings whose weighted rating is more than 0.6 stars below the page average are hidden, and the chip in the bottom-right shows a "Show N hidden" button to bring them back. Set the floor to Off in the options page and nothing is hidden on rating. Sponsored listings are demoted by default; you can hide them or leave them alone instead. Nothing is ever removed from the page, only moved or hidden.
             </div>
           </details>
 
           <details class="faq-item">
             <summary class="faq-question">
-              Does TopShelf hide products completely?
+              Why not just sort by rating?
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </summary>
             <div class="faq-answer">
-              By default, no products are deleted or hidden — they are simply reordered into honest quality order. You can toggle between Amazon's original order and TopShelf's ranked order at any time using the floating bottom-left pill.
+              Because a 5.0 from 14 people tells you much less than a 4.8 from 24,000. TopShelf treats every listing as if it also had 50 ratings at the page's average, which barely moves well-reviewed products and pulls thinly reviewed ones toward the middle until they've earned their spot.
             </div>
           </details>
 
           <details class="faq-item">
             <summary class="faq-question">
-              Can I use TopShelf together with the Knockoff extension?
+              Does it work with Knockoff?
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </summary>
             <div class="faq-answer">
-              Yes! TopShelf and Knockoff work together. TopShelf detects Knockoff's brand verdicts on Amazon tiles: confirmed legitimate brands receive a trust boost, while flagged pseudo-brands receive appropriate ranking penalties.
+              Yes, if you have it. When Knockoff marks a listing, TopShelf gives a known brand a 5% boost, demotes a suspect one by 40%, and hides a flagged one. Without Knockoff installed, nothing changes.
             </div>
           </details>
 
           <details class="faq-item">
             <summary class="faq-question">
-              Does this work on mobile or other browsers?
+              Which browsers does it run in?
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </summary>
             <div class="faq-answer">
-              TopShelf is currently built for all Chromium-based desktop browsers including Google Chrome, Microsoft Edge, Brave, and Arc. Firefox and Safari versions are in active development.
+              Chrome, and Chromium browsers that load Chrome extensions, such as Edge and Brave. It isn't on the Chrome Web Store yet, so for now you load it unpacked from the repo; the <a href="https://github.com/aaadnan259/TopShelf#install" target="_blank" rel="noopener">install steps</a> take a minute.
             </div>
           </details>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================================================================
-         CLOSING CTA BANNER
-         =================================================================== -->
-    <section class="cta-section">
-      <div class="wrap">
-        <div class="cta-dark-card">
-          <div class="hero-kicker-pill" style="margin-bottom: 16px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-            </svg>
-            Instant Quality Filter
-          </div>
-
-          <h2>Stop overpaying for fake reviews.</h2>
-          <p>Install TopShelf in 5 seconds. Get statistically honest rankings on your next Amazon search.</p>
-
-          <div class="cta-btns-row">
-            <a class="btn-cta-gold" href="https://chromewebstore.google.com/" target="_blank" rel="noopener">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/>
-                <line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/>
-              </svg>
-              Add to Chrome — It's Free
-            </a>
-
-            <a class="btn-cta-ghost" href="https://github.com/TopShelf" target="_blank" rel="noopener">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.61-4.04-1.61a3.18 3.18 0 0 0-1.33-1.76c-1.09-.74.08-.73.08-.73a2.52 2.52 0 0 1 1.84 1.24 2.56 2.56 0 0 0 3.5 1 2.56 2.56 0 0 1 .76-1.61c-2.67-.3-5.47-1.33-5.47-5.93a4.64 4.64 0 0 1 1.24-3.22 4.3 4.3 0 0 1 .12-3.18s1-.32 3.3 1.23a11.38 11.38 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23a4.3 4.3 0 0 1 .12 3.18 4.64 4.64 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92a2.86 2.86 0 0 1 .82 2.22v3.29c0 .32.22.7.82.58A12 12 0 0 0 12 .3"/>
-              </svg>
-              View on GitHub
-            </a>
-          </div>
         </div>
       </div>
     </section>
@@ -2218,232 +1720,166 @@
             </svg>
             TopShelf
           </div>
-          <p class="footer-desc">Statistically honest Amazon search results. Empirical Bayesian confidence, zero accounts, zero tracking, 100% on-device.</p>
           <p class="footer-disclaimer">Not affiliated with Amazon.com, Inc. "Amazon" is a trademark of Amazon.com, Inc.</p>
         </div>
 
-        <div class="footer-links-group">
-          <div class="footer-col">
-            <h5>Product</h5>
-            <ul>
-              <li><a href="#comparison">Before &amp; After</a></li>
-              <li><a href="#how-it-works">How It Works</a></li>
-              <li><a href="#calculator">Live Calculator</a></li>
-              <li><a href="#features">Feature Breakdown</a></li>
-            </ul>
-          </div>
-
-          <div class="footer-col">
-            <h5>Open Source</h5>
-            <ul>
-              <li><a href="https://github.com/TopShelf" target="_blank" rel="noopener">GitHub Repository</a></li>
-              <li><a href="https://github.com/TopShelf/blob/master/LICENSE" target="_blank" rel="noopener">MIT License</a></li>
-              <li><a href="https://github.com/TopShelf/issues" target="_blank" rel="noopener">Report an Issue</a></li>
-            </ul>
-          </div>
-
-          <div class="footer-col">
-            <h5>Community</h5>
-            <ul>
-              <li><a href="https://knockoff.co" target="_blank" rel="noopener">Knockoff Extension</a></li>
-              <li><a href="https://chromewebstore.google.com/" target="_blank" rel="noopener">Chrome Web Store</a></li>
-            </ul>
-          </div>
-        </div>
+        <ul class="footer-row">
+          <li><a href="https://github.com/aaadnan259/TopShelf" target="_blank" rel="noopener">Source</a></li>
+          <li><a href="https://github.com/aaadnan259/TopShelf/blob/master/LICENSE" target="_blank" rel="noopener">MIT License</a></li>
+          <li><a href="https://github.com/aaadnan259/TopShelf/blob/master/store-assets/privacy-policy.md" target="_blank" rel="noopener">Privacy</a></li>
+          <li><a href="https://github.com/aaadnan259/TopShelf/issues" target="_blank" rel="noopener">Report an issue</a></li>
+        </ul>
       </div>
     </footer>
 
-    <!-- ===================================================================
-         INTERACTIVE CLIENT-SIDE SCRIPTS (Zero External Dependencies)
-         =================================================================== -->
+    <!-- The real scorer, unmodified. It's pure (no DOM, no chrome.*), so it
+         runs here exactly as it runs in the extension. -->
+    <script src="../../src/scorer.js"></script>
     <script>
-      /* --- 1. Interactive Comparison Section Data & Logic --- */
-      var sampleProducts = [
-        {
-          id: 'anker',
-          name: 'Anker Prime 67W GaN Wall Charger (3-Port)',
-          stars: 4.8,
-          reviews: 24180,
-          price: 39.99,
-          sponsored: false,
-          imgSvg: '<svg width="50" height="50" viewBox="0 0 100 100"><rect x="24" y="20" width="52" height="60" rx="8" fill="#1e293b"/><rect x="42" y="32" width="16" height="5" rx="2" fill="#0284c7"/><rect x="42" y="44" width="16" height="5" rx="2" fill="#0284c7"/><rect x="40" y="58" width="20" height="7" rx="2" fill="#334155"/></svg>',
-          amazonRank: 3,
-          topshelfRank: 1,
-          topshelfScore: 94,
-          topshelfVerdict: '★ 4.8 Bayesian Quality · 24K Volume',
-          amazonVerdict: 'Buried under sponsored placements'
-        },
-        {
-          id: 'ugreen',
-          name: 'UGREEN Nexode Pro 65W 3-Port Fast Adapter',
-          stars: 4.7,
-          reviews: 12400,
-          price: 29.99,
-          sponsored: false,
-          imgSvg: '<svg width="50" height="50" viewBox="0 0 100 100"><rect x="22" y="22" width="56" height="56" rx="10" fill="#475569"/><rect x="42" y="44" width="16" height="5" rx="2" fill="#38bdf8"/><rect x="42" y="54" width="16" height="5" rx="2" fill="#38bdf8"/></svg>',
-          amazonRank: 4,
-          topshelfRank: 2,
-          topshelfScore: 91,
-          topshelfVerdict: '★ 4.7 High Volume · Great Value',
-          amazonVerdict: 'Pushed down by ad auctions'
-        },
-        {
-          id: 'szhlux',
-          name: 'SZHLUX 120W Ultra Rapid Charger (Sponsored)',
-          stars: 5.0,
-          reviews: 14,
-          price: 11.99,
-          sponsored: true,
-          imgSvg: '<svg width="50" height="50" viewBox="0 0 100 100"><rect x="28" y="20" width="44" height="60" rx="4" fill="#cbd5e1"/><text x="50" y="48" font-size="8" font-weight="900" fill="#ef4444" text-anchor="middle">TURBO</text></svg>',
-          amazonRank: 1,
-          topshelfRank: 4,
-          topshelfScore: 42,
-          topshelfVerdict: '⚠️ Ad Penalty (-35) · Thin Reviews (-20)',
-          amazonVerdict: 'Placed #1 via paid sponsor slot'
-        },
-        {
-          id: 'noname',
-          name: 'Baseus 65W GaN Travel Fast Charger',
-          stars: 4.6,
-          reviews: 5120,
-          price: 24.99,
-          sponsored: false,
-          imgSvg: '<svg width="50" height="50" viewBox="0 0 100 100"><rect x="26" y="22" width="48" height="56" rx="6" fill="#334155"/><rect x="42" y="40" width="16" height="5" rx="2" fill="#f59e0b"/></svg>',
-          amazonRank: 2,
-          topshelfRank: 3,
-          topshelfScore: 84,
-          topshelfVerdict: '★ 4.6 Solid Volume · Affordable',
-          amazonVerdict: 'Standard organic slot'
-        }
+      /* Amazon's order for the sample search: the sponsored slots come first,
+         as they do on a real results page. Numbers only; every rank, reason
+         and hidden flag below comes from TopShelfScore. */
+      var samplePage = [
+        { name: 'SZHLUX 120W Ultra Rapid Charger', rating: 5.0, reviews: 14, price: 11.99, sponsored: true, koVerdict: null },
+        { name: 'Baseus 65W GaN Travel Charger', rating: 4.6, reviews: 5120, price: 24.99, sponsored: false, koVerdict: null },
+        { name: 'VOLTMAX 100W 4-Port Charging Block', rating: 3.6, reviews: 410, price: 13.99, sponsored: true, koVerdict: null },
+        { name: 'Anker Prime 67W GaN Wall Charger', rating: 4.8, reviews: 24180, price: 39.99, sponsored: false, koVerdict: null },
+        { name: 'Generic 65W USB-C Charger', rating: 3.7, reviews: 880, price: 9.49, sponsored: false, koVerdict: null },
+        { name: 'UGREEN Nexode 65W 3-Port Adapter', rating: 4.7, reviews: 12400, price: 29.99, sponsored: false, koVerdict: null }
       ];
+      var YOURS = 'Your listing';
+      var compareMode = 'topshelf';
 
-      function renderCompareCards(mode) {
+      function sliderToReviews(v) {
+        // 0..100 -> 1..100,000 on a log scale, rounded to a plausible count.
+        var n = Math.pow(10, v / 20);
+        if (n < 100) return Math.round(n);
+        if (n < 1000) return Math.round(n / 10) * 10;
+        return Math.round(n / 100) * 100;
+      }
+      function reviewsToSlider(n) {
+        return Math.round(20 * Math.log10(Math.max(1, n)));
+      }
+      function escapeHtml(s) {
+        return String(s).replace(/[&<>"]/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+        });
+      }
+
+      function readYours() {
+        return {
+          name: YOURS,
+          rating: parseFloat(document.getElementById('calcRating').value),
+          reviews: sliderToReviews(parseInt(document.getElementById('calcReviews').value, 10)),
+          price: parseFloat(document.getElementById('calcPrice').value),
+          sponsored: document.getElementById('calcSponsored').checked,
+          koVerdict: document.getElementById('calcKo').value || null
+        };
+      }
+
+      // Mirrors content.js: visible tiles by score (ties keep Amazon's order),
+      // hidden tiles after them.
+      function rankPage(tiles, settings) {
+        var results = TopShelfScore(tiles, settings);
+        var rows = tiles.map(function (t, i) {
+          return { tile: t, result: results[i], amazonRank: i + 1 };
+        });
+        var visible = rows.filter(function (r) { return !r.result.hidden; });
+        var hidden = rows.filter(function (r) { return r.result.hidden; });
+        visible.sort(function (a, b) {
+          return (b.result.score - a.result.score) || (a.amazonRank - b.amazonRank);
+        });
+        visible.forEach(function (r, i) { r.rank = i + 1; });
+        return { visible: visible, hidden: hidden, prior: TopShelfScoreInternals.pagePrior(tiles) };
+      }
+
+      function updateDemo() {
+        if (typeof TopShelfScore !== 'function') {
+          document.getElementById('demoFallback').hidden = false;
+          return;
+        }
+        var yours = readYours();
+        document.getElementById('calcRatingVal').textContent = yours.rating.toFixed(1) + ' ★';
+        document.getElementById('calcReviewsVal').textContent = yours.reviews.toLocaleString();
+        document.getElementById('calcPriceVal').textContent = '$' + yours.price.toFixed(2);
+
+        var settings = {
+          mode: document.getElementById('calcMode').value,
+          floor: document.getElementById('calcFloor').value,
+          sponsored: 'demote'
+        };
+        // Your listing goes in the middle of Amazon's order.
+        var tiles = samplePage.slice(0, 3).concat([yours], samplePage.slice(3));
+        var ranked = rankPage(tiles, settings);
+        var all = ranked.visible.concat(ranked.hidden);
+        var mine = all.filter(function (r) { return r.tile.name === YOURS; })[0];
+
+        document.getElementById('demoRank').textContent = mine.result.hidden ? 'Hidden' : '#' + mine.rank;
+        document.getElementById('demoStamp').textContent = mine.result.hidden
+          ? 'behind "Show ' + ranked.hidden.length + ' hidden"'
+          : 'of ' + ranked.visible.length + ' shown';
+        document.getElementById('demoPrior').textContent = ranked.prior.toFixed(2) + ' ★';
+        document.getElementById('demoQuality').textContent = mine.result.quality.toFixed(2) + ' ★';
+        document.getElementById('demoScore').textContent = mine.result.score.toFixed(2);
+        document.getElementById('demoReasons').innerHTML = mine.result.reasons.map(function (r) {
+          return '<li>' + escapeHtml(r) + '</li>';
+        }).join('');
+
+        renderCompare(ranked, all);
+      }
+
+      function renderCompare(ranked, all) {
         var grid = document.getElementById('compareGrid');
-        if (!grid) return;
-        grid.innerHTML = '';
-
-        var sorted = sampleProducts.slice().sort(function(a, b) {
-          return mode === 'amazon' ? (a.amazonRank - b.amazonRank) : (a.topshelfRank - b.topshelfRank);
-        });
-
-        sorted.forEach(function(item) {
-          var isTop = (mode === 'topshelf' && item.topshelfRank === 1);
-          var isDemoted = (mode === 'topshelf' && item.topshelfRank === 4);
-          var rankNum = mode === 'amazon' ? item.amazonRank : item.topshelfRank;
-          var badgeClass = isTop ? 'rank-1' : (isDemoted ? 'rank-demoted' : 'rank-normal');
-          var verdictText = mode === 'amazon' ? item.amazonVerdict : item.topshelfVerdict;
-          var verdictClass = (mode === 'topshelf' && !isDemoted) ? 'good' : (isDemoted ? 'bad' : 'bad');
-
-          var card = document.createElement('div');
-          card.className = 'compare-card' + (isTop ? ' winner' : '');
-          card.innerHTML =
+        var rows = compareMode === 'amazon'
+          ? all.slice().sort(function (a, b) { return a.amazonRank - b.amazonRank; })
+          : all;
+        grid.innerHTML = rows.map(function (r) {
+          var t = r.tile;
+          var isHidden = r.result.hidden;
+          var label = compareMode === 'amazon'
+            ? 'Amazon #' + r.amazonRank
+            : (isHidden ? 'Hidden' : '#' + r.rank);
+          var badgeClass = compareMode === 'topshelf' && r.rank === 1 && !isHidden ? 'rank-1'
+            : (compareMode === 'topshelf' && isHidden ? 'rank-demoted' : 'rank-normal');
+          var moved = '';
+          if (compareMode === 'topshelf' && !isHidden && r.rank !== r.amazonRank) {
+            moved = '<span class="compare-moved">was #' + r.amazonRank + '</span>';
+          }
+          return '<div class="compare-card' + (t.name === YOURS ? ' yours' : '') +
+              (compareMode === 'topshelf' && isHidden ? ' is-hidden' : '') + '">' +
             '<div class="compare-card-top">' +
-              '<span class="compare-rank-badge ' + badgeClass + '">Rank #' + rankNum + '</span>' +
-              (item.sponsored ? '<span style="font-size:10px; font-weight:700; color:#ef4444; background:#fee2e2; padding:2px 6px; border-radius:4px;">SPONSORED</span>' : '<span style="font-size:11px; font-weight:700; color:#059669;">ORGANIC</span>') +
+              '<span class="compare-rank-badge ' + badgeClass + '">' + label + '</span>' +
+              (t.sponsored ? '<span class="compare-sponsored">Sponsored</span>' : moved) +
             '</div>' +
-            '<div class="compare-product-art">' + item.imgSvg + '</div>' +
-            '<h4 class="compare-title">' + item.name + '</h4>' +
+            '<h4 class="compare-title">' + escapeHtml(t.name) + '</h4>' +
             '<div class="compare-stats">' +
-              '<span><strong>' + item.stars.toFixed(1) + ' ★</strong> (' + item.reviews.toLocaleString() + ' reviews)</span>' +
-              '<span>Price: $' + item.price.toFixed(2) + '</span>' +
+              '<span><strong>' + t.rating.toFixed(1) + ' ★</strong> (' + t.reviews.toLocaleString() + ')</span>' +
+              '<span>$' + t.price.toFixed(2) + '</span>' +
             '</div>' +
-            '<div class="compare-verdict-box ' + verdictClass + '">' +
-              verdictText +
-            '</div>';
-          grid.appendChild(card);
-        });
+            (compareMode === 'topshelf'
+              ? '<div class="compare-verdict-box">' + r.result.reasons.map(escapeHtml).join(' · ') + '</div>'
+              : '') +
+          '</div>';
+        }).join('');
       }
 
       function setCompareMode(mode) {
-        var btnAmz = document.getElementById('btnShowAmazon');
-        var btnTop = document.getElementById('btnShowTopShelf');
-        if (mode === 'amazon') {
-          btnAmz.className = 'btn-toggle-view active';
-          btnTop.className = 'btn-toggle-view inactive';
-        } else {
-          btnTop.className = 'btn-toggle-view active';
-          btnAmz.className = 'btn-toggle-view inactive';
-        }
-        renderCompareCards(mode);
+        compareMode = mode;
+        document.getElementById('btnShowAmazon').className = 'btn-toggle-view ' + (mode === 'amazon' ? 'active' : 'inactive');
+        document.getElementById('btnShowTopShelf').className = 'btn-toggle-view ' + (mode === 'topshelf' ? 'active' : 'inactive');
+        updateDemo();
       }
 
-      /* --- 2. Interactive Bayesian Calculator Logic --- */
-      function updateCalculator() {
-        var rating = parseFloat(document.getElementById('calcRating').value);
-        var reviews = parseInt(document.getElementById('calcReviews').value, 10);
-        var price = parseFloat(document.getElementById('calcPrice').value);
-        var isSponsored = document.getElementById('calcSponsored').checked;
-        var isKnockoff = document.getElementById('calcKnockoff').checked;
-
-        document.getElementById('calcRatingVal').innerText = rating.toFixed(1) + ' ★';
-        document.getElementById('calcReviewsVal').innerText = reviews.toLocaleString();
-        document.getElementById('calcPriceVal').innerText = '$' + price.toFixed(2);
-
-        /* Bayesian Confidence Weighting */
-        var priorStars = 4.2;
-        var mConfidence = 500; /* Laplace smoothing parameter */
-        var bayesRating = (reviews * rating + mConfidence * priorStars) / (reviews + mConfidence);
-        var confWeightPct = Math.min(100, Math.round((reviews / (reviews + mConfidence)) * 100));
-
-        /* Base score out of 100 */
-        var starQualityPts = Math.round((bayesRating / 5.0) * 50);
-        var volumePts = Math.min(30, Math.round(Math.log10(Math.max(1, reviews)) * 6.5));
-        var valueRatio = Math.max(0, Math.min(20, Math.round((rating / Math.max(10, price)) * 75)));
-
-        var penalties = 0;
-        if (isSponsored) penalties += 35;
-        if (isKnockoff) penalties += 25;
-        if (reviews < 50) penalties += 20;
-
-        var finalScore = Math.max(5, Math.min(99, starQualityPts + volumePts + valueRatio - penalties));
-
-        document.getElementById('calcFinalScore').innerText = finalScore;
-        document.getElementById('calcConfWeight').innerText = confWeightPct + '% (' + (reviews > 1000 ? 'High' : 'Low') + ' sample)';
-        document.getElementById('calcQualityFactor').innerText = '+' + starQualityPts + ' pts';
-        document.getElementById('calcValueBonus').innerText = '+' + valueRatio + ' pts';
-        document.getElementById('calcPenalties').innerText = penalties > 0 ? ('-' + penalties + ' pts') : '0 pts';
-
-        var stamp = document.getElementById('calcBadgeStamp');
-        var reason = document.getElementById('calcReasonBox');
-
-        if (finalScore >= 88) {
-          stamp.innerText = '#1 Top Pick';
-          stamp.style.background = 'var(--gold)';
-          stamp.style.color = '#fff';
-          reason.style.background = '#ecfdf5';
-          reason.style.color = '#047857';
-          reason.innerText = '★ ' + rating.toFixed(1) + ' star quality (' + starQualityPts + ' pts) · High verified volume · Excellent choice';
-        } else if (finalScore >= 70) {
-          stamp.innerText = '#2 Strong Rank';
-          stamp.style.background = '#1e293b';
-          stamp.style.color = '#fff';
-          reason.style.background = '#f0fdf4';
-          reason.style.color = '#15803d';
-          reason.innerText = '★ ' + rating.toFixed(1) + ' solid score · Reliable specifications';
-        } else {
-          stamp.innerText = 'Demoted Tile';
-          stamp.style.background = '#fee2e2';
-          stamp.style.color = '#ef4444';
-          reason.style.background = '#fef2f2';
-          reason.style.color = '#b91c1c';
-          reason.innerText = '⚠️ Rank deductions: ' + (isSponsored ? 'Sponsored (-35) ' : '') + (reviews < 50 ? 'Thin reviews (-20) ' : '') + (isKnockoff ? 'Knockoff flag (-25)' : '');
-        }
-      }
-
-      function loadCalcPreset(stars, reviews, price, sponsored, knockoff) {
-        document.getElementById('calcRating').value = stars;
-        document.getElementById('calcReviews').value = reviews;
+      function loadPreset(rating, reviews, price, sponsored, ko) {
+        document.getElementById('calcRating').value = rating;
+        document.getElementById('calcReviews').value = reviewsToSlider(reviews);
         document.getElementById('calcPrice').value = price;
         document.getElementById('calcSponsored').checked = sponsored;
-        document.getElementById('calcKnockoff').checked = knockoff;
-        updateCalculator();
+        document.getElementById('calcKo').value = ko;
+        updateDemo();
       }
 
-      /* Initialize */
-      document.addEventListener('DOMContentLoaded', function() {
-        renderCompareCards('topshelf');
-        updateCalculator();
-      });
+      document.addEventListener('DOMContentLoaded', updateDemo);
     </script>
   </body>
 </html>
