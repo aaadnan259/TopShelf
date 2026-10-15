@@ -23,12 +23,18 @@
   position: relative;
 }
 
-/* Rank badge in the top-left corner of a tile. */
+/* Rank badge in the top-RIGHT corner of a tile. Top-left is where Amazon
+   renders its own "Best Seller" / "Overall Pick" ribbons; sharing that
+   corner made both unreadable. isolation + a high z-index give the badge
+   its own stacking context so Amazon's layered tile content can't occlude
+   it, and it never paints into Amazon's elements. */
 .ts-badge {
   position: absolute;
   top: 6px;
-  left: 6px;
-  z-index: 20;
+  right: 6px;
+  left: auto;
+  z-index: 100;
+  isolation: isolate;
   min-width: 22px;
   height: 22px;
   padding: 0 6px;
@@ -38,7 +44,7 @@
   font: 700 12px/22px Arial, sans-serif;
   text-align: center;
   cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 2px #fff, 0 1px 4px rgba(0, 0, 0, 0.35);
   user-select: none;
 }
 .ts-badge-1 {
@@ -56,12 +62,14 @@
   outline-offset: 1px;
 }
 
-/* Reason popover, anchored under the badge. */
+/* Reason popover, anchored under the badge and opening LEFTWARD from the
+   tile's right edge so it stays inside the tile / viewport. */
 .ts-popover {
   position: absolute;
   top: 26px;
-  left: 0;
-  z-index: 30;
+  right: 0;
+  left: auto;
+  z-index: 101;
   width: 220px;
   max-width: 70vw;
   padding: 10px 12px;
@@ -71,6 +79,7 @@
   border-radius: 8px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
   font: 400 12px/1.4 Arial, sans-serif;
+  text-align: left;
   cursor: default;
 }
 .ts-popover ul {
@@ -84,11 +93,6 @@
 }
 .ts-popover li:last-child {
   border-bottom: none;
-}
-
-/* Keep the popover on-screen near the right edge of the grid. */
-.ts-tile:nth-child(n) .ts-popover {
-  /* left default; flips handled by JS in a later iteration if needed */
 }
 
 /* Floating control chip, bottom-right. */
