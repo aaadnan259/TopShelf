@@ -35,10 +35,6 @@ Private by design: no accounts, no analytics, no tracking, and zero network
 requests. Everything happens in your browser using only what's already on the
 page. Your settings are stored in Chrome sync storage and nowhere else.
 
-Pairs with Knockoff: if you also run the Knockoff extension, TopShelf reads
-its brand verdicts to hide flagged listings and demote suspect ones. Not
-installed? TopShelf works exactly the same, minus that one optional signal.
-
 Not affiliated with Amazon.
 
 ## Category
