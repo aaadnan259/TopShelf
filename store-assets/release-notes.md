@@ -9,5 +9,4 @@
 - Explainable rank badges on the top 3 listings.
 - Hidden-tile floor (Off / Standard / Aggressive) with one-click reveal.
 - Instant toggle back to Amazon's original order.
-- Optional Knockoff interop via data-ko-verdict.
 - Zero network requests. Settings in Chrome sync storage only.

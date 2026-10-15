@@ -12,10 +12,11 @@
  *   4. rsvg-convert on PATH
  * If none is available it prints instructions and exits non-zero.
  */
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { tmpdir } from "node:os";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, "..");
@@ -27,6 +28,26 @@ if (!existsSync(svg)) {
   console.error(`Missing ${svg}`);
   process.exit(1);
 }
+
+// The 128px PNG doubles as the Chrome Web Store icon, and the store asks for
+// 96x96 artwork inside 16px of transparent padding so it sits evenly next to
+// other listings. The toolbar sizes stay full-bleed: padding would only make
+// them smaller. Wrapping the artwork in a scaled <g> keeps icon.svg the single
+// source and works with every renderer below.
+const tmp = mkdtempSync(join(tmpdir(), "topshelf-icons-"));
+const padded = join(tmp, "icon-padded.svg");
+const inner = readFileSync(svg, "utf8")
+  .replace(/<\?xml[^>]*\?>/, "")
+  .replace(/<!--[\s\S]*?-->/g, "")
+  .replace(/<svg[^>]*>/, "")
+  .replace(/<\/svg>\s*$/, "");
+writeFileSync(
+  padded,
+  '<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">' +
+    '<g transform="translate(16 16) scale(0.75)">' + inner + "</g></svg>"
+);
+const src = (s) => (s === 128 ? padded : svg);
+process.on("exit", () => rmSync(tmp, { recursive: true, force: true }));
 
 function have(cmd) {
   const r = spawnSync(cmd, ["--version"], { stdio: "ignore" });
@@ -45,12 +66,12 @@ async function trySharp() {
   // pretending no tool was found.
   try {
     for (const s of sizes) {
-      await sharp(svg, { density: 384 }).resize(s, s).png().toFile(out(s));
+      await sharp(src(s), { density: 384 }).resize(s, s).png().toFile(out(s));
       console.log(`sharp -> icon-${s}.png`);
     }
     return true;
   } catch (e) {
-    console.error(`sharp failed to render ${svg}:`);
+    console.error(`sharp failed to render ${src(128)}:`);
     console.error("  " + (e && e.message ? e.message : e));
     process.exit(1);
   }
@@ -68,10 +89,10 @@ function tryCmd(cmd, argsFor) {
 
 const done =
   (await trySharp()) ||
-  tryCmd("magick", (s) => [svg, "-background", "none", "-resize", `${s}x${s}`, out(s)]) ||
-  tryCmd("convert", (s) => [svg, "-background", "none", "-resize", `${s}x${s}`, out(s)]) ||
-  tryCmd("inkscape", (s) => [svg, "--export-type=png", `--export-width=${s}`, `--export-height=${s}`, `--export-filename=${out(s)}`]) ||
-  tryCmd("rsvg-convert", (s) => ["-w", String(s), "-h", String(s), "-o", out(s), svg]);
+  tryCmd("magick", (s) => [src(s), "-background", "none", "-resize", `${s}x${s}`, out(s)]) ||
+  tryCmd("convert", (s) => [src(s), "-background", "none", "-resize", `${s}x${s}`, out(s)]) ||
+  tryCmd("inkscape", (s) => [src(s), "--export-type=png", `--export-width=${s}`, `--export-height=${s}`, `--export-filename=${out(s)}`]) ||
+  tryCmd("rsvg-convert", (s) => ["-w", String(s), "-h", String(s), "-o", out(s), src(s)]);
 
 if (!done) {
   console.error(

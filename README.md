@@ -2,10 +2,9 @@
 
 **Amazon, best first.**
 
-TopShelf re-ranks Amazon search results by statistically honest quality,
-demotes review-farmed and sponsored listings, and pairs with
-[Knockoff](#pairs-with-knockoff) to hide the junk entirely. It runs
-entirely in your browser: **no accounts, no analytics, no tracking, zero
+TopShelf re-ranks Amazon search results by statistically honest quality
+and demotes review-farmed and sponsored listings. It runs entirely in your
+browser: **no accounts, no analytics, no tracking, zero
 network requests.**
 
 A 4.6★ product with 8,000 reviews should beat a 5.0★ with 12. Amazon's sort
@@ -75,23 +74,6 @@ TopShelf makes **no network requests of any kind**. Everything it needs is
 already on the page you're looking at, or in your own Chrome sync storage.
 No servers, no accounts, no telemetry. You can verify this in the code —
 there is no `fetch`, `XMLHttpRequest`, or remote resource anywhere.
-
----
-
-## Pairs with Knockoff
-
-Knockoff (a separate extension) answers *"is this a real brand?"*
-TopShelf answers *"of what's left, what's actually best?"*
-
-If Knockoff is installed, it tags tiles with `data-ko-verdict`. TopShelf
-reads that optional signal:
-
-- `flagged` → hidden
-- `suspect` → heavy demotion
-- `known` → small boost
-
-If Knockoff isn't installed, the attribute simply isn't there and TopShelf
-behaves neutrally — **zero coupling, no requirement.**
 
 ---
 
