@@ -1,0 +1,47 @@
+name: Site
+
+# Publishes site/public to GitHub Pages. The page loads the real
+# src/scorer.js for its demo, so the deploy copies that file (and the icon)
+# next to it and rewrites the ../../ paths that work in a local checkout.
+on:
+  push:
+    branches: [master]
+    paths:
+      - "site/**"
+      - "src/scorer.js"
+      - "icons/icon.svg"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assemble site
+        run: |
+          mkdir -p _site/src _site/icons
+          cp -r site/public/. _site/
+          cp src/scorer.js _site/src/
+          cp icons/icon.svg _site/icons/
+          sed -i -e 's#\.\./\.\./src/#src/#g' -e 's#\.\./\.\./icons/#icons/#g' _site/index.html
+          # Fail the deploy rather than ship a page with a broken demo.
+          if grep -n '\.\./\.\./' _site/index.html; then exit 1; fi
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
