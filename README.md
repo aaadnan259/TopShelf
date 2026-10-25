@@ -47,7 +47,7 @@ adjustments:
 Every rank explains itself: click a badge on the top-3 tiles to see exactly
 which numbers and penalties produced the score.
 
-You stay in control. A chip in the bottom-right toggles instantly back to
+You stay in control. A chip in the bottom-left toggles instantly back to
 **Amazon's original order**, and hidden tiles are one click from reappearing
 — TopShelf only ever *moves* Amazon's own tiles, it never deletes anything.
 
