@@ -388,7 +388,7 @@
             <figcaption>A real Amazon search for "smart watch", October 2026. Left: Amazon's order. Right: the same page after TopShelf.</figcaption>
           </figure>
 
-          <!-- The tuning rule from CLAUDE.md. TODO: replace with a line or two
+          <!-- The project's tuning rule. TODO: replace with a line or two
                from the author about why TopShelf exists. -->
           <p class="note">
             Burying a good product is worse than letting a mediocre one rank a little high. So TopShelf demotes on soft signals, and only hides what's clearly below the rest of the page.
@@ -428,7 +428,7 @@
               </div>
               <figure class="shelf">
                 <img src="img/value.webp" width="560" height="180" loading="lazy"
-                     alt="Value mode ranks a $7.99 cable with 34,400 ratings first; its popover shows value divided by log10 of the price." />
+                     alt="Value mode ranks a $7.99 cable with 34,400 ratings first; its popover shows the price was factored in." />
               </figure>
             </div>
           </div>
@@ -518,9 +518,7 @@
             </li>
             <li>
               <strong>It discounts ratings that haven't been earned yet.</strong>
-              Each rating is blended with the page's average as if it had 50 extra average ratings:
-              <code>(50 × page average + rating × count) ÷ (50 + count)</code>.
-              A 5.0 with 14 ratings lands near the average. A 4.8 with 24,000 stays 4.8.
+              Listings with only a few ratings are pulled toward the page's average until they have enough to stand on their own. A 5.0 with 14 ratings lands near the average. A 4.8 with 24,000 stays 4.8.
             </li>
             <li>
               <strong>It demotes, rather than hides, on soft signals.</strong>
@@ -535,7 +533,7 @@
               Links and cart buttons work as before. Nothing is removed from the page, only reordered or hidden behind the chip.
             </li>
           </ol>
-          <p class="aside">Value mode divides the score by <code>log10(price + 10)</code>, so cheaper listings move up without a $9 one automatically winning. The full spec is in <a href="https://github.com/aaadnan259/TopShelf/blob/master/CLAUDE.md">CLAUDE.md</a>.</p>
+          <p class="aside">Value mode also weighs price, so cheaper listings move up without the cheapest one automatically winning.</p>
         </div>
       </section>
 
@@ -553,7 +551,7 @@
             </details>
             <details>
               <summary>Why not just sort by rating?</summary>
-              <p>Because a 5.0 from 14 people tells you much less than a 4.8 from 24,000. TopShelf treats every listing as if it also had 50 ratings at the page's average, which barely moves well-reviewed products and pulls thinly reviewed ones toward the middle until they've earned their spot.</p>
+              <p>Because a 5.0 from 14 people tells you much less than a 4.8 from 24,000. TopShelf trusts a rating more the more people gave it, which barely moves well-reviewed products and pulls thinly reviewed ones toward the middle until they've earned their spot.</p>
             </details>
             <details>
               <summary>Which browsers does it run in?</summary>
